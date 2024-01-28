@@ -10,8 +10,6 @@ const WALLET_PRIVATE_KEY = process.env.NFT_WALLET_PRIVATE_KEY;
 const PROVIDER_URL = process.env.PROVIDER_URL;
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
-  console.log("Hello");
-  console.log(abi);
   let accountAddress = '';
   try {
     const body: { trustedData?: { messageBytes?: string } } = await req.json();
