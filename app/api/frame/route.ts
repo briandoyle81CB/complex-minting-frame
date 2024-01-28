@@ -49,7 +49,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     console.error(err);
   }
 
-  const imageUrl = `https://land-sea-and-sky.vercel.app/api/images/nft?minted=${minted}&address=${accountAddress}`;
+  const imageUrl = `https://land-sea-and-sky.vercel.app/api/images/nft`;
 
   if (minted) {
     return new NextResponse(`<!DOCTYPE html><html><head>
