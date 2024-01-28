@@ -1,6 +1,8 @@
 const abi = [
     {
       "inputs": [
+    {
+      "inputs": [
         {
           "internalType": "address",
           "name": "_svgRenderer",
@@ -132,6 +134,11 @@ const abi = [
     {
       "inputs": [],
       "name": "MaxSupplyReached",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OneMintPerAddress",
       "type": "error"
     },
     {
@@ -375,6 +382,25 @@ const abi = [
       "type": "function"
     },
     {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "minted",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [],
       "name": "name",
       "outputs": [
@@ -614,6 +640,6 @@ const abi = [
       "stateMutability": "view",
       "type": "function"
     }
-  ]
+]
 
 export default abi;

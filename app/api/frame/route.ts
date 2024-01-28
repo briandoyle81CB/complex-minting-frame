@@ -4,13 +4,14 @@ import { privateKeyToAccount } from 'viem/accounts'
 import { baseSepolia } from 'viem/chains';
 import { createPublicClient, createWalletClient, getContract, http } from 'viem';
 
-import abi from '../constants/abi';
+import LandSeaSkyNFT from '../constants/LandSeaSkyNFT.json';
 
-const CONTRACT_ADDRESS = process.env.NFT_CONTRACT_ADDRESS;
 const WALLET_PRIVATE_KEY = process.env.NFT_WALLET_PRIVATE_KEY;
 const PROVIDER_URL = process.env.PROVIDER_URL;
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
+  console.log("Hello");
+  console.log(abi);
   let accountAddress = '';
   try {
     const body: { trustedData?: { messageBytes?: string } } = await req.json();
@@ -36,8 +37,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   try {
     minted = !!await publicClient.readContract({
-      address: CONTRACT_ADDRESS as `0x${string}`,
-      abi: abi,
+      address: LandSeaSkyNFT.address as `0x${string}`,
+      abi: LandSeaSkyNFT.abi,
       functionName: 'minted',
       args: [accountAddress]
     });
@@ -58,8 +59,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     try {
       const { request } = await publicClient.simulateContract({
         account: nftOwnerAccount,
-        address: CONTRACT_ADDRESS as `0x${string}`,
-        abi: abi,
+        address: LandSeaSkyNFT.address as `0x${string}`,
+        abi: LandSeaSkyNFT.abi,
         functionName: 'mint',
         args: [accountAddress]
       });

@@ -1,5 +1,5 @@
 {
-  "name": "Land, Sea, and Sky",
+  "name": "LandSeaandSky",
   "version": "0.1.0",
   "scripts": {
     "build": "rm -rf .next && next build",
@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "@briandoyle81, @zizzamia",
+  "author": "@briandoyle81@zizzamia",
   "license": "MIT",
   "dependencies": {
     "@coinbase/onchainkit": "^0.1.5",
