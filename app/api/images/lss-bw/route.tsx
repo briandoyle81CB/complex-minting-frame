@@ -6,7 +6,7 @@ export async function GET() {
         status: 200,
         headers: {
             'Content-Type': 'image/png',
-            'Cache-Control': "max-age=10',
+            'Cache-Control': 'max-age=10',
         }
     })
 }
