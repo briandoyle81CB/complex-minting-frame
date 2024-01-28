@@ -56,6 +56,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     <meta property="fc:frame" content="vNext" />
     <meta property="fc:frame:image" content="${imageUrl} />
     <meta property="fc:frame:button:1" content="You've already minted!" />
+    <meta property="fc:frame:post_url" content="https://land-sea-and-sky.vercel.app/api/frame" />
   </head></html>`);
   } else {
     // Try to mint and airdrop the NFT
@@ -75,6 +76,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     <meta property="fc:frame" content="vNext" />
     <meta property="fc:frame:image" content="${imageUrl} />
     <meta property="fc:frame:button:1" content="WIP, but you should have a Testnet NFT" />
+    <meta property="fc:frame:post_url" content="https://land-sea-and-sky.vercel.app/api/frame" />
   </head></html>`);
   }
 }
