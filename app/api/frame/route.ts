@@ -6,20 +6,25 @@ import { createPublicClient, createWalletClient, getContract, http } from 'viem'
 
 import LandSeaSkyNFT from '../constants/LandSeaSkyNFT.json';
 
-const WALLET_PRIVATE_KEY = process.env.NFT_WALLET_PRIVATE_KEY;
+require('dotenv').config();
+
+const WALLET_PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
 const PROVIDER_URL = process.env.PROVIDER_URL;
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress = '';
   try {
     const body: { trustedData?: { messageBytes?: string } } = await req.json();
-    accountAddress = await getFrameAccountAddress(body, { NEYNAR_API_KEY: 'NEYNAR_API_DOCS' });
+    accountAddress = await getFrameAccountAddress(body, { NEYNAR_API_KEY: 'NEYNAR_API_DOCS' }) as string;
   } catch (err) {
     console.error(err);
+    // For local testing
+    // accountAddress = '0x69a5B3aE8598fC5A5419eaa1f2A59Db2D052e346';
+    // console.log("Using backup address");
   }
-
+  
   const nftOwnerAccount = privateKeyToAccount(WALLET_PRIVATE_KEY as `0x${string}`);
-
+  
   const nftOwnerClient = createWalletClient({
     account: nftOwnerAccount,
     chain: baseSepolia,
@@ -44,7 +49,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     console.error(err);
   }
 
-  const imageUrl = `https://land-sea-and-sky.vercel.app/api/images/nft?date=${Date.now()}`;
+  const imageUrl = `https://land-sea-and-sky.vercel.app/api/images/nft?minted=${minted}&address=${accountAddress}`;
 
   if (minted) {
     return new NextResponse(`<!DOCTYPE html><html><head>
@@ -59,7 +64,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         account: nftOwnerAccount,
         address: LandSeaSkyNFT.address as `0x${string}`,
         abi: LandSeaSkyNFT.abi,
-        functionName: 'mint',
+        functionName: 'mintFor',
         args: [accountAddress]
       });
       await nftOwnerClient.writeContract(request);
