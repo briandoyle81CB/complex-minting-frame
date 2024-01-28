@@ -5,7 +5,7 @@ import type { Metadata } from 'next';
 const imageUrl = `https://land-sea-and-sky.vercel.app/api/images/nft?date=${Date.now()}`;
 
 const frameMetadata = getFrameMetadata({
-  buttons: ['Mint (Not working)'],
+  buttons: ['Mint'],
   image: imageUrl,
   post_url: `https://land-sea-and-sky.vercel.app/api/frame?date=${Date.now()}`,
 });
