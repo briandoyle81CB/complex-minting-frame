@@ -10,14 +10,12 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     console.error(err);
   }
 
-  const imageUrl = `https://land-sea-and-sky.vercel.app/api/images/lss-bw?date=${Date.now()}`;
-  const frameUrl = `https://land-sea-and-sky.vercel.app/api/frame${Date.now()}`;
-
   return new NextResponse(`<!DOCTYPE html><html><head>
     <meta property="fc:frame" content="vNext" />
-    <meta property="fc:frame:image" content="${imageUrl}" />
+    <meta property="fc:frame" content="Land, Sea, and Sky" />
+    <meta property="fc:frame:image" content="https://land-sea-and-sky.vercel.app/lss-bw.png" />
     <meta property="fc:frame:button:1" content="${accountAddress}" />
-    <meta property="fc:frame:post_url" content="${frameUrl}" />
+    <meta property="fc:frame:post_url" content="https://land-sea-and-sky.vercel.app/api/frame" />
   </head></html>`);
 }
 
