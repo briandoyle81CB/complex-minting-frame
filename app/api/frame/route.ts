@@ -15,7 +15,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress = '';
   try {
     const body: { trustedData?: { messageBytes?: string } } = await req.json();
-    accountAddress = await getFrameAccountAddress(body, { NEYNAR_API_KEY: 'NEYNAR_API_DOCS' });
+    accountAddress = await getFrameAccountAddress(body, { NEYNAR_API_KEY: 'NEYNAR_API_DOCS' }) as string;
   } catch (err) {
     console.error(err);
     // For local testing
