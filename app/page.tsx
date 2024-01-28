@@ -11,10 +11,10 @@ const frameMetadata = getFrameMetadata({
 });
 
 export const metadata: Metadata = {
-  title: 'Land, Sea, and Sky',
+  title: 'Land, Sea, and Sky 2',
   description: 'A complex, fully onchain NFT, minted exclusively from a Frame!',
   openGraph: {
-    title: 'Land, Sea, and Sky',
+    title: 'Land, Sea, and Sky 2',
     description: 'A complex, fully onchain NFT, minted exclusively from a Frame!',
     images: [imageUrl],
   },
