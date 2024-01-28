@@ -2,9 +2,9 @@ import { getFrameMetadata } from '@coinbase/onchainkit';
 import type { Metadata } from 'next';
 
 const frameMetadata = getFrameMetadata({
-  buttons: ['Next image'],
-  image: 'https://zizzamia.xyz/park-1.png',
-  post_url: 'https://zizzamia.xyz/api/frame',
+  buttons: ['Mint'],
+  image: 'https://land-sea-and-sky.vercel.app/lss-bw.png',
+  post_url: 'https://land-sea-and-sky.vercel.app/api/frame',
 });
 
 export const metadata: Metadata = {
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Land, Sea, and Sky',
     description: 'A complex, fully onchain NFT, minted exclusively from a Frame!',
-    images: ['https://zizzamia.xyz/park-1.png'],
+    images: ['https://land-sea-and-sky.vercel.app/lss-bw.png'],
   },
   other: {
     ...frameMetadata,
