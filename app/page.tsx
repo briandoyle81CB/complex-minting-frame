@@ -2,7 +2,7 @@ import { getFrameMetadata } from '@coinbase/onchainkit';
 import type { Metadata } from 'next';
 
 
-const imageUrl = `https://land-sea-and-sky.vercel.app/api/images/lss-bw?date=${Date.now()}`;
+const imageUrl = `https://land-sea-and-sky.vercel.app/api/images/nft?date=${Date.now()}`;
 
 const frameMetadata = getFrameMetadata({
   buttons: ['Mint (Not working)'],
