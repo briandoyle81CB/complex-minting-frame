@@ -7,7 +7,7 @@ const imageUrl = `https://land-sea-and-sky.vercel.app/api/images/lss-bw?date=${D
 const frameMetadata = getFrameMetadata({
   buttons: ['Mint (Not working)'],
   image: imageUrl,
-  post_url: 'https://land-sea-and-sky.vercel.app/api/frame',
+  post_url: `https://land-sea-and-sky.vercel.app/api/frame?date=${Date.now()}`,
 });
 
 export const metadata: Metadata = {
