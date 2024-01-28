@@ -49,14 +49,13 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     console.error(err);
   }
 
-  const imageUrl = `https://land-sea-and-sky.vercel.app/api/images/nft`;
+  const imageUrl = `https://land-sea-and-sky.vercel.app/api/images/nft?minted=${minted}&address=${accountAddress}`;
 
   if (minted) {
     return new NextResponse(`<!DOCTYPE html><html><head>
     <meta property="fc:frame" content="vNext" />
-    <meta property="fc:frame:image" content="https://zizzamia.xyz/park-2.png" />
-    <meta property="fc:frame:button:1" content="Address: ${accountAddress}" />
-    <meta property="fc:frame:post_url" content="https://zizzamia.xyz/api/frame" />
+    <meta property="fc:frame:image" content="${imageUrl}" />
+    <meta property="fc:frame:button:1" content="You've already minted!" />
   </head></html>`);
   } else {
     // Try to mint and airdrop the NFT
@@ -74,9 +73,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     }
     return new NextResponse(`<!DOCTYPE html><html><head>
     <meta property="fc:frame" content="vNext" />
-    <meta property="fc:frame:image" content="${imageUrl} />
+    <meta property="fc:frame:image" content="${imageUrl}" />
     <meta property="fc:frame:button:1" content="WIP, but you should have a Testnet NFT" />
-    <meta property="fc:frame:post_url" content="https://land-sea-and-sky.vercel.app/api/frame" />
   </head></html>`);
   }
 }
