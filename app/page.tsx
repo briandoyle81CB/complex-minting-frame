@@ -8,11 +8,11 @@ const frameMetadata = getFrameMetadata({
 });
 
 export const metadata: Metadata = {
-  title: 'zizzamia.xyz',
-  description: 'LFG',
+  title: 'Land, Sea, and Sky',
+  description: 'A complex, fully onchain NFT, minted exclusively from a Frame!',
   openGraph: {
-    title: 'zizzamia.xyz',
-    description: 'LFG',
+    title: 'Land, Sea, and Sky',
+    description: 'A complex, fully onchain NFT, minted exclusively from a Frame!',
     images: ['https://zizzamia.xyz/park-1.png'],
   },
   other: {
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <h1>zizzamia.xyz</h1>
+      <h1>Land, Sea, and Sky</h1>
     </>
   );
 }
