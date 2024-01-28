@@ -7,7 +7,7 @@ const frameMetadata = getFrameMetadata({
   post_url: 'https://land-sea-and-sky.vercel.app/api/frame',
 });
 
-const imageUrl = `https://land-sea-and-sky.vercel.app/lss-bw.png?date=${Date.now()}`;
+const imageUrl = `https://land-sea-and-sky.vercel.app/api/images/lss-bw?date=${Date.now()}`;
 
 export const metadata: Metadata = {
   title: 'Land, Sea, and Sky',
