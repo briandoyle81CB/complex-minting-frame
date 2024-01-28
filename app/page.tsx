@@ -2,7 +2,7 @@ import { getFrameMetadata } from '@coinbase/onchainkit';
 import type { Metadata } from 'next';
 
 const frameMetadata = getFrameMetadata({
-  buttons: ['Mint'],
+  buttons: ['Mint (Not working)'],
   image: 'https://land-sea-and-sky.vercel.app/lss-bw.png',
   post_url: 'https://land-sea-and-sky.vercel.app/api/frame',
 });
