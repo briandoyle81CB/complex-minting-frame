@@ -54,9 +54,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   if (minted) {
     return new NextResponse(`<!DOCTYPE html><html><head>
     <meta property="fc:frame" content="vNext" />
-    <meta property="fc:frame:image" content="${imageUrl} />
-    <meta property="fc:frame:button:1" content="You've already minted!" />
-    <meta property="fc:frame:post_url" content="https://land-sea-and-sky.vercel.app/api/frame" />
+    <meta property="fc:frame:image" content="https://zizzamia.xyz/park-2.png" />
+    <meta property="fc:frame:button:1" content="Address: ${accountAddress}" />
+    <meta property="fc:frame:post_url" content="https://zizzamia.xyz/api/frame" />
   </head></html>`);
   } else {
     // Try to mint and airdrop the NFT
