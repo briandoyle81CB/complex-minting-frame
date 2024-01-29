@@ -1,13 +1,15 @@
 import { getFrameMetadata } from '@coinbase/onchainkit';
 import type { Metadata } from 'next';
+import { getFrameAccountAddress } from '@coinbase/onchainkit';
 
 
-const imageUrl = `https://land-sea-and-sky.vercel.app/api/images/nft?date=${Date.now()}`;
+const imageUrl = `https://land-sea-and-sky.vercel.app/api/images/nft`;
+
 
 const frameMetadata = getFrameMetadata({
-  buttons: ['Mint'],
+  buttons: ['Mint or View'],
   image: imageUrl,
-  post_url: `https://land-sea-and-sky.vercel.app/api/frame?date=${Date.now()}`,
+  post_url: `https://land-sea-and-sky.vercel.app/api/frame`,
 });
 
 export const metadata: Metadata = {
