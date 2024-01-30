@@ -89,11 +89,18 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     // reactions = DebugData.reactions;
 
     const API_URL = `https://api.neynar.com/v2/farcaster/reactions/user?fid=${fid}&type=recasts&limit=100`
-    const headers = {
-      'accept': 'application/json',
-      'api_key': `${NEYNAR_API_PRIVATE_KEY}`
+    const options = {
+      method: 'GET',
+      url: API_URL,
+      headers: {
+        accept: 'application/json',
+        api_key: NEYNAR_API_PRIVATE_KEY as string
+      }
     };
-    const response = await fetch(API_URL, { headers });
+    const response = await fetch(options.url, { headers: options.headers });
+    if (response.status !== 200) {
+      console.error(`non-200 status returned from neynar : ${response.status}`);
+    }
     console.log(response);
       
     if (response.ok) {
