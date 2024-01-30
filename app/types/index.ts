@@ -26,3 +26,16 @@ export type EtherscanResponse = {
   message: string;
   result: EtherscanEventResponse[];
 };
+
+// Define interfaces to represent the JSON structure
+export interface Reaction {
+  cast: Cast;
+}
+
+export interface Cast {
+  frames?: Frame[];
+}
+
+export interface Frame {
+  post_url: string;
+}

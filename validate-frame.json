@@ -1,0 +1,336 @@
+{
+  "valid": true,
+  "action": {
+    "object": "validated_frame_action",
+    "interactor": {
+      "object": "user",
+      "fid": 18949,
+      "username": null,
+      "display_name": "NeynNet Tester",
+      "pfp_url": "https://i.imgur.com/8OOts5t.png",
+      "profile": {
+        "bio": {
+          "text": "from the terminal"
+        }
+      },
+      "follower_count": 5,
+      "following_count": 3,
+      "verifications": [],
+      "active_status": "inactive"
+    },
+    "tapped_button": {
+      "index": 2
+    },
+    "cast": {
+      "object": "cast",
+      "hash": "0x237025b322fd03a9ddc7ec6c078fb9c56d1a7211",
+      "thread_hash": "0x237025b322fd03a9ddc7ec6c078fb9c56d1a7211",
+      "parent_hash": null,
+      "parent_url": "https://warpcast.com/~/channel/ted",
+      "root_parent_url": "https://warpcast.com/~/channel/ted",
+      "parent_author": {
+        "fid": null
+      },
+      "author": {
+        "object": "user",
+        "fid": 239,
+        "custody_address": "0xc67925418dc80265720244594c632b258a5c78e8",
+        "username": "ted",
+        "display_name": "ted (not lasso)",
+        "pfp_url": "https://openseauserdata.com/files/fd28c65d9b5192168fb259009a3afd36.png",
+        "profile": {
+          "bio": {
+            "text": "/ted | biz ops @ heron finance | fun @ boys club | surfing @ venice, ca | eating @ gjusta / gjelina | former molecular biologist",
+            "mentioned_profiles": []
+          }
+        },
+        "follower_count": 41493,
+        "following_count": 281,
+        "verifications": [
+          "0x0aa34eb615ab330b64060ff9fa994e72a7a95b59"
+        ],
+        "active_status": "active"
+      },
+      "text": "hate the faristocracy? now is your time to turn it into the farcaster democracy. choose their fate by voting in round 1 below.\n\nbetter vote @robrecht.eth as based if you want a dynamic faristocracy NFT 😏\n\nfaristocracy-frame.vercel.app/",
+      "timestamp": "2024-01-27T19:15:55.000Z",
+      "embeds": [
+        {
+          "url": "http://faristocracy-frame.vercel.app/"
+        }
+      ],
+      "frames": [
+        {
+          "version": "vNext",
+          "image": "https://faristocracy-frame.vercel.app/start.png",
+          "buttons": [
+            {
+              "index": 1,
+              "title": "Choose Their Fate"
+            }
+          ],
+          "post_url": "https://faristocracy-frame.vercel.app/api/post?slide=1",
+          "frames_url": "http://faristocracy-frame.vercel.app/"
+        }
+      ],
+      "reactions": {
+        "likes": [
+          {
+            "fid": 18949,
+            "fname": "!18949"
+          },
+          {
+            "fid": 194,
+            "fname": "rish"
+          },
+          {
+            "fid": 11510,
+            "fname": "xenbh.eth"
+          },
+          {
+            "fid": 15211,
+            "fname": "statuette"
+          },
+          {
+            "fid": 11528,
+            "fname": "jrf"
+          },
+          {
+            "fid": 235380,
+            "fname": "hamid-gh"
+          },
+          {
+            "fid": 236032,
+            "fname": "ririxt"
+          },
+          {
+            "fid": 3872,
+            "fname": "slowcrypto"
+          },
+          {
+            "fid": 195264,
+            "fname": "hacool"
+          },
+          {
+            "fid": 235790,
+            "fname": "altctrl"
+          },
+          {
+            "fid": 206,
+            "fname": "coopahtroopa.eth"
+          },
+          {
+            "fid": 1407,
+            "fname": "zinger"
+          },
+          {
+            "fid": 557,
+            "fname": "pugson"
+          },
+          {
+            "fid": 234386,
+            "fname": "vanguard"
+          },
+          {
+            "fid": 431,
+            "fname": "j4ck.eth"
+          },
+          {
+            "fid": 5774,
+            "fname": "tldr"
+          },
+          {
+            "fid": 4167,
+            "fname": "nounishprof"
+          },
+          {
+            "fid": 9548,
+            "fname": "quillingqualia.eth"
+          },
+          {
+            "fid": 9135,
+            "fname": "kugusha.eth"
+          },
+          {
+            "fid": 359,
+            "fname": "pushix"
+          },
+          {
+            "fid": 232512,
+            "fname": "sara98"
+          },
+          {
+            "fid": 12,
+            "fname": "linda"
+          },
+          {
+            "fid": 234886,
+            "fname": "musafa"
+          },
+          {
+            "fid": 17900,
+            "fname": "faces"
+          },
+          {
+            "fid": 10259,
+            "fname": "alexgrover.eth"
+          },
+          {
+            "fid": 2755,
+            "fname": "bichonxattack"
+          },
+          {
+            "fid": 12938,
+            "fname": "ashrafstakala"
+          },
+          {
+            "fid": 15139,
+            "fname": "mojiniho"
+          },
+          {
+            "fid": 8132,
+            "fname": "el1000"
+          },
+          {
+            "fid": 716,
+            "fname": "ayushm.eth"
+          },
+          {
+            "fid": 643,
+            "fname": "jkg.eth"
+          },
+          {
+            "fid": 5620,
+            "fname": "fun"
+          },
+          {
+            "fid": 302,
+            "fname": "gt"
+          },
+          {
+            "fid": 11913,
+            "fname": "omer"
+          },
+          {
+            "fid": 7076,
+            "fname": "erixink"
+          },
+          {
+            "fid": 616,
+            "fname": "dylsteck.eth"
+          },
+          {
+            "fid": 124,
+            "fname": "giu"
+          },
+          {
+            "fid": 6596,
+            "fname": "king"
+          },
+          {
+            "fid": 24128,
+            "fname": "chris24.eth"
+          },
+          {
+            "fid": 5543,
+            "fname": "sirsu"
+          },
+          {
+            "fid": 680,
+            "fname": "woj.eth"
+          },
+          {
+            "fid": 576,
+            "fname": "nonlinear.eth"
+          },
+          {
+            "fid": 1996,
+            "fname": "thatalexpalmer.eth"
+          },
+          {
+            "fid": 2417,
+            "fname": "robrecht.eth"
+          }
+        ],
+        "recasts": [
+          {
+            "fid": 2864,
+            "fname": "launch"
+          },
+          {
+            "fid": 15211,
+            "fname": "statuette"
+          },
+          {
+            "fid": 235790,
+            "fname": "altctrl"
+          },
+          {
+            "fid": 431,
+            "fname": "j4ck.eth"
+          },
+          {
+            "fid": 1214,
+            "fname": "df"
+          },
+          {
+            "fid": 359,
+            "fname": "pushix"
+          },
+          {
+            "fid": 17900,
+            "fname": "faces"
+          },
+          {
+            "fid": 15139,
+            "fname": "mojiniho"
+          },
+          {
+            "fid": 2417,
+            "fname": "robrecht.eth"
+          },
+          {
+            "fid": 302,
+            "fname": "gt"
+          },
+          {
+            "fid": 312,
+            "fname": "les"
+          },
+          {
+            "fid": 680,
+            "fname": "woj.eth"
+          }
+        ]
+      },
+      "replies": {
+        "count": 11
+      },
+      "mentioned_profiles": [
+        {
+          "object": "user",
+          "fid": 2417,
+          "custody_address": "0x2f26b3dd9bb28c702a538bb8077712f1247f0946",
+          "username": "robrecht.eth",
+          "display_name": "Rob Sanchez",
+          "pfp_url": "https://i.imgur.com/Tdg2esQ.jpg",
+          "profile": {
+            "bio": {
+              "text": "everything onchain, growth, and product. ycombinator @orangedao",
+              "mentioned_profiles": []
+            }
+          },
+          "follower_count": 7517,
+          "following_count": 1576,
+          "verifications": [
+            "0x4c4ae926a706349fd16700b4f368a4a0cd4a67e4"
+          ],
+          "active_status": "active"
+        }
+      ],
+      "viewer_context": {
+        "liked": true,
+        "recasted": false
+      }
+    }
+  }
+}
