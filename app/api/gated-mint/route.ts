@@ -54,12 +54,14 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     console.error(err);
   }
 
-  const imageUrl = `https://land-sea-and-sky.vercel.app/api/images/nft?minted=${minted}&address=${accountAddress}`;
+  // const imageUrl = `https://land-sea-and-sky.vercel.app/api/images/nft?minted=${minted}&address=${accountAddress}`;
+  const bwUrl = `https://land-sea-and-sky.vercel.app/test-bw.png`;
+  const colorUrl = `https://land-sea-and-sky.vercel.app/test-color.png`;
 
   if (minted) {
     return new NextResponse(`<!DOCTYPE html><html><head>
     <meta property="fc:frame" content="vNext" />
-    <meta property="fc:frame:image" content="${imageUrl}" />
+    <meta property="fc:frame:image" content="${colorUrl}" />
     <meta property="fc:frame:button:1" content="You've already minted!" />
   </head></html>`);
   } else {
@@ -119,7 +121,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     if (!found) {
       return new NextResponse(`<!DOCTYPE html><html><head>
       <meta property="fc:frame" content="vNext" />
-      <meta property="fc:frame:image" content="${imageUrl}" />
+      <meta property="fc:frame:image" content="${bwUrl}" />
       <meta property="fc:frame:button:1" content="Recast and click again!" />
     </head></html>`);
     } else {
@@ -138,8 +140,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       }
       return new NextResponse(`<!DOCTYPE html><html><head>
       <meta property="fc:frame" content="vNext" />
-      <meta property="fc:frame:image" content="${imageUrl}" />
-      <meta property="fc:frame:button:1" content="WIP, but you should have a Testnet NFT" />
+      <meta property="fc:frame:image" content="${colorUrl}" />
+      <meta property="fc:frame:button:1" content="Thanks for Minting!" />
     </head></html>`);
     }
   }
