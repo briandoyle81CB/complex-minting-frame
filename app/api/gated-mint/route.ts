@@ -13,13 +13,13 @@ require('dotenv').config();
 const WALLET_PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
 const PROVIDER_URL = process.env.PROVIDER_URL;
 const TARGET_ADDRESS = "https://land-sea-and-sky.vercel.app/api/gated-mint";
-const NEYNAR_API_KEY = process.env.NEYNAR_API_KEY;
+const NEYNAR_API_PRIVATE_KEY = process.env.NEYNAR_API_PRIVATE_KEY;
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress = '';
   try {
     const body: { trustedData?: { messageBytes?: string } } = await req.json();
-    accountAddress = await getFrameAccountAddress(body, { NEYNAR_API_KEY: NEYNAR_API_KEY }) as string;
+    accountAddress = await getFrameAccountAddress(body, { NEYNAR_API_KEY: NEYNAR_API_PRIVATE_KEY }) as string;
   } catch (err) {
     console.error(err);
     // For local testing
@@ -27,6 +27,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     // accountAddress = '0x69a5B3aE8598fC5A5419eaa1f2A59Db2D052e350';
     // console.log("Using backup address");
   }
+  console.log(accountAddress);
   
   const nftOwnerAccount = privateKeyToAccount(WALLET_PRIVATE_KEY as `0x${string}`);
   
@@ -51,6 +52,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       args: [accountAddress]
     });
   } catch (err) {
+    console.error("Failure getting address");
     console.error(err);
   }
 
@@ -89,7 +91,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     const API_URL = `https://api.neynar.com/v2/farcaster/reactions/user?fid=${fid}&type=recasts&limit=100`
     const headers = {
       'accept': 'application/json',
-      'api_key': `Bearer ${NEYNAR_API_KEY}`
+      'api_key': `${NEYNAR_API_PRIVATE_KEY}`
     };
     const response = await fetch(API_URL, { headers });
     console.log(response);
