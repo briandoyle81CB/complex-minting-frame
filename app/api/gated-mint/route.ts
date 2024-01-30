@@ -2,7 +2,7 @@ import { getFrameAccountAddress, getFrameValidatedMessage } from '@coinbase/onch
 import { NextRequest, NextResponse } from 'next/server';
 import { privateKeyToAccount } from 'viem/accounts'
 import { baseSepolia } from 'viem/chains';
-import { createPublicClient, createWalletClient, getContract, http } from 'viem';
+import { createPublicClient, createWalletClient, http } from 'viem';
 import { Reaction, Cast, Frame } from '../../../app/types';
 import DebugData from '../../../ryan-recasts.json'
 
@@ -77,6 +77,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       const validatedMessage = await getFrameValidatedMessage(body);
       fid = validatedMessage?.data?.fid || 0;
     } catch (err) {
+      console.error("Failure in getting fid");
       console.error(err);
     }
 
