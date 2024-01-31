@@ -6,7 +6,7 @@ import { createPublicClient, createWalletClient, http } from 'viem';
 import { Reaction, EtherscanResponse } from '../../types';
 
 import LandSeaSkyNFT from '../constants/LandSeaSkyNFT.json';
-const TARGET_ADDRESS = "https://base-mints-frame.vercel.app/api/gated-mint";
+const TARGET_URL = "https://base-mints-frame.vercel.app/api/gated-upgrade";
 
 require('dotenv').config();
 
@@ -53,7 +53,7 @@ async function checkForReacast(fid: number ): Promise<boolean> {
     for (const reaction of reactions as Reaction[]) {
       if (reaction?.cast?.frames) {
         for (const frame of reaction.cast.frames) {
-          if (frame.post_url === TARGET_ADDRESS) {
+          if (frame.post_url === TARGET_URL) {
             found = true;
             break;
           }
@@ -180,7 +180,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         <meta property="fc:frame" content="vNext" />
         <meta property="fc:frame:image" content="${imgUrl}" />
         <meta property="fc:frame:button:1" content="Recast, wait a moment, and click again!" />
-        <meta property="fc:frame:post_url" content="${TARGET_ADDRESS}" />
+        <meta property="fc:frame:post_url" content="${TARGET_URL}" />
       </head></html>`);
       }
     }
@@ -204,7 +204,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       <meta property="fc:frame" content="vNext" />
       <meta property="fc:frame:image" content="${imgUrl}" />
       <meta property="fc:frame:button:1" content="Thanks for minting, recast and click to upgrade!" />
-      <meta property="fc:frame:post_url" content="${TARGET_ADDRESS}" />
+      <meta property="fc:frame:post_url" content="${TARGET_URL}" />
     </head></html>`);
   }
 }
