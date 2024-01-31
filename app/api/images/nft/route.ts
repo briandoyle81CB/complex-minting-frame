@@ -68,7 +68,7 @@ export async function GET(req: NextRequest) {
     const tokenIdsTo = tokenIds.filter((tokenId) => !tokenIdsFrom.includes(tokenId));
 
     if (tokenIdsTo.length === 0) {
-      const img = await fetch('https://land-sea-and-sky.vercel.app/gave-me-away.png').then((res) => res.blob());
+      const img = await fetch('https://base-mints-frame.vercel.app/gave-me-away.png').then((res) => res.blob());
       return new NextResponse(img, {
         status: 200,
         headers: {

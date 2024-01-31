@@ -1,12 +1,12 @@
 import { getFrameMetadata } from '@coinbase/onchainkit';
 import type { Metadata } from 'next';
 
-const imageUrl = `https://land-sea-and-sky.vercel.app/api/images/nft`;
+const imageUrl = `https://base-mints-frame.vercel.app/api/images/nft`;
 
 const frameMetadata = getFrameMetadata({
   buttons: [{ label: 'Click to Mint, Upgrade, or View NFT' }],
   image: imageUrl,
-  post_url: `https://land-sea-and-sky.vercel.app/api/gated-upgrade`,
+  post_url: `https://base-mints-frame.vercel.app/api/gated-upgrade`,
 });
 
 export const metadata: Metadata = {
