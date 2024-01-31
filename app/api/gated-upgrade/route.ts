@@ -20,7 +20,7 @@ const BASESCAN_API_KEY = process.env.BASESCAN_API_KEY;
  * 
  * We'll only check the last 100 recasts for the user
  */
-async function checkForReacast(fid: number ): Promise<boolean> {
+async function checkForRecast(fid: number ): Promise<boolean> {
   let reactions: any;
   
   // DEBUG
@@ -65,6 +65,7 @@ async function checkForReacast(fid: number ): Promise<boolean> {
       }
     }
   }
+  console.log(`Did we find recast for farcaster user ${fid}: ${found}`)
   return found;
 }
 
@@ -113,6 +114,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   const imgUrl = `https://land-sea-and-sky.vercel.app/api/images/nft`;
 
   if (minted) {
+    console.log(`Address ${accountAddress} has minted`);
     let upgraded = false;
     let tokenId = "";
     try {
@@ -146,15 +148,18 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     }
 
     if (upgraded) {
+      console.log(`Address ${accountAddress} has upgraded`);
       return new NextResponse(`<!DOCTYPE html><html><head>
       <meta property="fc:frame" content="vNext" />
       <meta property="fc:frame:image" content="${imgUrl}" />
       <meta property="fc:frame:button:1" content="You've already upgraded, enjoy!" />
     </head></html>`);
     } else {
+      console.log(`Address ${accountAddress} has not upgraded`);
       // Check for a recast
-      const recast = await checkForReacast(message?.fid as number);
+      const recast = await checkForRecast(message?.fid as number);
       if (recast) {
+        console.log(`Recast found for ${accountAddress}`);
         // Try to upgrade the NFT
         try {
           console.log(`Upgrading for ${accountAddress}`);
@@ -176,6 +181,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         <meta property="fc:frame:button:1" content="Thanks for upgrading, enjoy your whale!" />
       </head></html>`);
       } else {
+        console.log(`No recast found for ${accountAddress}`);
         return new NextResponse(`<!DOCTYPE html><html><head>
         <meta property="fc:frame" content="vNext" />
         <meta property="fc:frame:image" content="${imgUrl}" />
@@ -185,6 +191,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       }
     }
   } else {
+    console.log(`Address ${accountAddress} has not minted`);
     // Try to mint and airdrop the NFT
     try {
       console.log(`Minting for ${accountAddress}`);
