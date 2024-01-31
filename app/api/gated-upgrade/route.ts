@@ -1,11 +1,11 @@
 import { FrameRequest, getFrameAccountAddress, getFrameMessage } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
 import { privateKeyToAccount } from 'viem/accounts'
-import { baseSepolia } from 'viem/chains';
+import { base } from 'viem/chains';
 import { createPublicClient, createWalletClient, http } from 'viem';
 import { Reaction, EtherscanResponse } from '../../types';
 
-import LandSeaSkyNFT from '../constants/LandSeaSkyNFT.json';
+import LandSeaSkyNFT from '../constants/base/LandSeaSkyNFT.json';
 const TARGET_URL = "https://base-mints-frame.vercel.app/api/gated-upgrade";
 
 require('dotenv').config();
@@ -88,12 +88,12 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   
   const nftOwnerClient = createWalletClient({
     account: nftOwnerAccount,
-    chain: baseSepolia,
+    chain: base,
     transport: http(PROVIDER_URL as string)
   });
 
   const publicClient = createPublicClient({
-    chain: baseSepolia,
+    chain: base,
     transport: http(PROVIDER_URL as string)
   });
 
@@ -120,7 +120,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     try {
       // TODO: This is also done in the image route, so we should probably refactor this
       // Find out of the address still owns the NFT, and if so, what the token ID is
-      const API_URL = `https://api-sepolia.basescan.org/api?module=account&action=tokennfttx&contractaddress=${LandSeaSkyNFT.address}&address=${accountAddress}&sort=asc&apikey=${BASESCAN_API_KEY}`;
+      const API_URL = `https://api.basescan.org/api?module=account&action=tokennfttx&contractaddress=${LandSeaSkyNFT.address}&address=${accountAddress}&sort=asc&apikey=${BASESCAN_API_KEY}`;
       const response = await fetch(API_URL);
       const json: EtherscanResponse = (await response.json()) as EtherscanResponse;
       

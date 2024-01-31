@@ -3,7 +3,7 @@ import { EtherscanResponse } from '../../../types';
 
 import LandSeaSkyNFT from '../../constants/LandSeaSkyNFT.json';
 import { createPublicClient, http } from 'viem';
-import { baseSepolia } from 'viem/chains';
+import { base } from 'viem/chains';
 const BASESCAN_API_KEY = process.env.BASESCAN_API_KEY;
 const PROVIDER_URL = process.env.PROVIDER_URL;
 
@@ -52,7 +52,7 @@ export async function GET(req: NextRequest) {
     });
   } else {
     // Find out of the address still owns the NFT, and if so, what the token ID is
-    const API_URL = `https://api-sepolia.basescan.org/api?module=account&action=tokennfttx&contractaddress=${LandSeaSkyNFT.address}&address=${address}&sort=asc&apikey=${BASESCAN_API_KEY}`;
+    const API_URL = `https://api.basescan.org/api?module=account&action=tokennfttx&contractaddress=${LandSeaSkyNFT.address}&address=${address}&sort=asc&apikey=${BASESCAN_API_KEY}`;
     const response = await fetch(API_URL);
     const json: EtherscanResponse = (await response.json()) as EtherscanResponse;
     
@@ -79,7 +79,7 @@ export async function GET(req: NextRequest) {
     } else {
       // Get the actual NFT image from the contract
       const publicClient = createPublicClient({
-        chain: baseSepolia,
+        chain: base,
         transport: http(PROVIDER_URL as string)
       });
       
