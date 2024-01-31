@@ -178,7 +178,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         return new NextResponse(`<!DOCTYPE html><html><head>
         <meta property="fc:frame" content="vNext" />
         <meta property="fc:frame:image" content="${imgUrl}" />
-        <meta property="fc:frame:button:1" content="Thanks for upgrading, enjoy your whale!" />
+        <meta property="fc:frame:button:1" content="Thanks for upgrading, your whale is on the way!" />
       </head></html>`);
       } else {
         console.log(`No recast found for ${accountAddress}`);
