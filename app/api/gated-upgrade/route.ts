@@ -111,7 +111,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     console.error(err);
   }
 
-  const imgUrl = `https://land-sea-and-sky.vercel.app/api/images/nft`;
+  const imgUrl = `https://land-sea-and-sky.vercel.app/api/images/nft?address=${accountAddress}&minted=${minted}`;
 
   if (minted) {
     console.log(`Address ${accountAddress} has minted`);
