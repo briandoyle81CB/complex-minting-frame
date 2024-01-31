@@ -1,4 +1,4 @@
-import { getFrameAccountAddress } from '@coinbase/onchainkit';
+import { FrameRequest, getFrameAccountAddress, getFrameMessage } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
 import { privateKeyToAccount } from 'viem/accounts'
 import { baseSepolia } from 'viem/chains';
@@ -12,15 +12,19 @@ const WALLET_PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
 const PROVIDER_URL = process.env.PROVIDER_URL;
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
-  let accountAddress = '';
-  try {
-    const body: { trustedData?: { messageBytes?: string } } = await req.json();
-    accountAddress = await getFrameAccountAddress(body, { NEYNAR_API_KEY: 'NEYNAR_API_DOCS' }) as string;
-  } catch (err) {
-    console.error(err);
-    // For local testing
-    // accountAddress = '0x69a5B3aE8598fC5A5419eaa1f2A59Db2D052e346';
-    // console.log("Using backup address");
+  let accountAddress: string | undefined = '';
+  const body: FrameRequest = await req.json();
+  const { isValid, message } = await getFrameMessage(body);
+  if (isValid) {
+    try {
+      const body: { trustedData?: { messageBytes?: string } } = await req.json();
+      accountAddress = await getFrameAccountAddress(message, { NEYNAR_API_KEY: 'NEYNAR_API_DOCS' }) as string;
+    } catch (err) {
+      console.error(err);
+      // For local testing
+      // accountAddress = '0x69a5B3aE8598fC5A5419eaa1f2A59Db2D052e346';
+      // console.log("Using backup address");
+    }
   }
   
   const nftOwnerAccount = privateKeyToAccount(WALLET_PRIVATE_KEY as `0x${string}`);

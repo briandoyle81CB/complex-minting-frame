@@ -1,4 +1,4 @@
-import { getFrameAccountAddress, getFrameValidatedMessage } from '@coinbase/onchainkit';
+import { FrameRequest, getFrameAccountAddress, getFrameMessage } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
 import { privateKeyToAccount } from 'viem/accounts'
 import { baseSepolia } from 'viem/chains';
@@ -6,28 +6,30 @@ import { createPublicClient, createWalletClient, http } from 'viem';
 import { Reaction, Cast, Frame } from '../../../app/types';
 import DebugData from '../../../ryan-recasts.json'
 
-import LandSeaSkyNFT from '../constants/LandSeaSkyNFT.json';
+import LimitedAirdropMinter from '../constants/LimitedAirdropMinter.json';
 
 require('dotenv').config();
 
 const WALLET_PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
 const PROVIDER_URL = process.env.PROVIDER_URL;
-const TARGET_ADDRESS = "https://land-sea-and-sky.vercel.app/api/gated-mint";
+const TARGET_ADDRESS = "https://base-mints-frame/api/gated-mint";
 const NEYNAR_API_PRIVATE_KEY = process.env.NEYNAR_API_PRIVATE_KEY;
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
-  let accountAddress = '';
-  try {
-    const body: { trustedData?: { messageBytes?: string } } = await req.json();
-    accountAddress = await getFrameAccountAddress(body, { NEYNAR_API_KEY: NEYNAR_API_PRIVATE_KEY }) as string;
-  } catch (err) {
-    console.error(err);
-    // For local testing
-    // accountAddress = '0x69a5B3aE8598fC5A5419eaa1f2A59Db2D052e346';
-    // accountAddress = '0x69a5B3aE8598fC5A5419eaa1f2A59Db2D052e350';
-    // console.log("Using backup address");
+  let accountAddress: string | undefined = '';
+  const body: FrameRequest = await req.json();
+  const { isValid, message } = await getFrameMessage(body);
+  if (isValid) {
+    try {
+      const body: { trustedData?: { messageBytes?: string } } = await req.json();
+      accountAddress = await getFrameAccountAddress(message, { NEYNAR_API_KEY: 'NEYNAR_API_DOCS' }) as string;
+    } catch (err) {
+      console.error(err);
+      // For local testing
+      // accountAddress = '0x69a5B3aE8598fC5A5419eaa1f2A59Db2D052e346';
+      // console.log("Using backup address");
+    }
   }
-  console.log(accountAddress);
   
   const nftOwnerAccount = privateKeyToAccount(WALLET_PRIVATE_KEY as `0x${string}`);
   
@@ -46,8 +48,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   try {
     minted = !!await publicClient.readContract({
-      address: LandSeaSkyNFT.address as `0x${string}`,
-      abi: LandSeaSkyNFT.abi,
+      address: LimitedAirdropMinter.address as `0x${string}`,
+      abi: LimitedAirdropMinter.abi,
       functionName: 'minted',
       args: [accountAddress]
     });
@@ -56,9 +58,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     console.error(err);
   }
 
-  // const imageUrl = `https://land-sea-and-sky.vercel.app/api/images/nft?minted=${minted}&address=${accountAddress}`;
-  const bwUrl = `https://land-sea-and-sky.vercel.app/test-bw.png`;
-  const colorUrl = `https://land-sea-and-sky.vercel.app/test-color.png`;
+  const bwUrl = `https://base-mints-frame.vercel.app/test-bw.png`;
+  const colorUrl = `https://base-mints-frame.vercel.app/test-color.png`;
 
   if (minted) {
     return new NextResponse(`<!DOCTYPE html><html><head>
@@ -73,16 +74,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
      * We'll only check the last 100 recasts for the user
      */
 
-    let fid = 0;
-    try {
-      const body: { trustedData?: { messageBytes?: string } } = await req.json();
-      const validatedMessage = await getFrameValidatedMessage(body);
-      fid = validatedMessage?.data?.fid || 0;
-    } catch (err) {
-      console.error("Failure in getting fid");
-      console.error(err);
-    }
-
+    const fid = message?.fid;
+      
     let reactions: any;
     
     // DEBUG
@@ -139,8 +132,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       try {
         const { request } = await publicClient.simulateContract({
           account: nftOwnerAccount,
-          address: LandSeaSkyNFT.address as `0x${string}`,
-          abi: LandSeaSkyNFT.abi,
+          address: LimitedAirdropMinter.address as `0x${string}`,
+          abi: LimitedAirdropMinter.abi,
           functionName: 'mintFor',
           args: [accountAddress]
         });

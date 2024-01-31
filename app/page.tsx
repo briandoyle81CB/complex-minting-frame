@@ -8,7 +8,7 @@ const imageUrl = 'https://land-sea-and-sky.vercel.app/test-bw.png';
 
 
 const frameMetadata = getFrameMetadata({
-  buttons: ['Recast & Click to Mint'],
+  buttons: [{ label: 'Recast & Click to Mint' }],
   image: imageUrl,
   post_url: `https://land-sea-and-sky.vercel.app/api/gated-mint`,
 });
