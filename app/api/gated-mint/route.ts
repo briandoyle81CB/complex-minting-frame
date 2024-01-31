@@ -127,6 +127,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       <meta property="fc:frame" content="vNext" />
       <meta property="fc:frame:image" content="${bwUrl}" />
       <meta property="fc:frame:button:1" content="Recast and click again!" />
+      <meta property="fc:frame:post_url" content="${TARGET_ADDRESS}" />
     </head></html>`);
     } else {
       // Try to mint and airdrop the NFT
