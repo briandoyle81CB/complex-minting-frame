@@ -11,7 +11,7 @@ const TARGET_URL = "https://base-mints-frame.vercel.app/api/gated-upgrade";
 require('dotenv').config();
 
 const WALLET_PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
-const PROVIDER_URL = process.env.PROVIDER_URL;
+const PROVIDER_URL = process.env.PROVIDER_URL_MAINNET;
 const NEYNAR_API_PRIVATE_KEY = process.env.NEYNAR_API_PRIVATE_KEY;
 const BASESCAN_API_KEY = process.env.BASESCAN_API_KEY;
 

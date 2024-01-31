@@ -11,7 +11,7 @@ const TARGET_ADDRESS = "https://base-mints-frame.vercel.app/api/gated-mint";
 require('dotenv').config();
 
 const WALLET_PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
-const PROVIDER_URL = process.env.PROVIDER_URL;
+const PROVIDER_URL = process.env.PROVIDER_URL_TESTNET;
 const NEYNAR_API_PRIVATE_KEY = process.env.NEYNAR_API_PRIVATE_KEY;
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {

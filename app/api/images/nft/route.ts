@@ -5,7 +5,7 @@ import LandSeaSkyNFT from '../../constants/base/LandSeaSkyNFT.json';
 import { createPublicClient, http } from 'viem';
 import { base } from 'viem/chains';
 const BASESCAN_API_KEY = process.env.BASESCAN_API_KEY;
-const PROVIDER_URL = process.env.PROVIDER_URL;
+const PROVIDER_URL = process.env.PROVIDER_URL_MAINNET;
 
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
