@@ -6,7 +6,7 @@ const imageUrl = 'https://base-mints-frame.vercel.app/test-bw.png';
 const frameMetadata = getFrameMetadata({
   buttons: [{ label: 'Recast & Click to Mint' }],
   image: imageUrl,
-  post_url: `https://base-mints-frame.app/api/gated-mint`,
+  post_url: `https://base-mints-frame.vercel.app/api/gated-mint`,
 });
 
 export const metadata: Metadata = {
