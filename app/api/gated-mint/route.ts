@@ -117,6 +117,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
           }
         }
         if (found) {
+          console.log(`Found recast for ${accountAddress}, farcaster user ${fid}`);
           break;
         }
       }
@@ -141,6 +142,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         });
         await nftOwnerClient.writeContract(request);
       } catch (err) {
+        console.error("Failure minting");
         console.error(err);
       }
       return new NextResponse(`<!DOCTYPE html><html><head>
