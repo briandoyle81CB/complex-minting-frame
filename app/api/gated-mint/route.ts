@@ -21,7 +21,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   const { isValid, message } = await getFrameMessage(body);
   if (isValid) {
     try {
-      const body: { trustedData?: { messageBytes?: string } } = await req.json();
       accountAddress = await getFrameAccountAddress(message, { NEYNAR_API_KEY: 'NEYNAR_API_DOCS' }) as string;
     } catch (err) {
       console.error(err);
@@ -54,7 +53,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       args: [accountAddress]
     });
   } catch (err) {
-    console.error("Failure getting address");
+    console.error("Failure getting minted status");
     console.error(err);
   }
 
