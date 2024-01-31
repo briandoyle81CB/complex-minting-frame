@@ -80,8 +80,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     
     // DEBUG
     // reactions = DebugData.reactions;
-
-    const API_URL = `https://api.neynar.com/v2/farcaster/reactions/user?fid=${fid}&type=recasts&limit=100`
+    const API_URL = `https://api.neynar.com/v2/farcaster/reactions/user?fid=${fid}&type=recasts&limit=50`
     const options = {
       method: 'GET',
       url: API_URL,
@@ -94,11 +93,10 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     if (response.status !== 200) {
       console.error(`non-200 status returned from neynar : ${response.status}`);
     }
-    console.log(response);
       
     if (response.ok) {
       const reactionsJson = await response.json();
-      reactions = reactionsJson?.data?.reactions;
+      reactions = reactionsJson?.reactions;
     } else {
       console.error(`Error fetching reactions from neynar`);
       console.error(response);
