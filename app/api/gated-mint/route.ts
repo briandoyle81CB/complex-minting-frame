@@ -5,7 +5,7 @@ import { baseSepolia } from 'viem/chains';
 import { createPublicClient, createWalletClient, http } from 'viem';
 import { Reaction, Cast, Frame } from '../../../app/types';
 
-import LimitedAirdropMinter from '../constants/LimitedAirdropMinter.json';
+import LimitedAirdropMinter from '../constants/sepolia/LimitedAirdropMinter.json';
 const TARGET_ADDRESS = "https://base-mints-frame.vercel.app/api/gated-mint";
 
 require('dotenv').config();
