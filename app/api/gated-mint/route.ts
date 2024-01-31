@@ -7,7 +7,7 @@ import { Reaction, Cast, Frame } from '../../../app/types';
 import DebugData from '../../../ryan-recasts.json'
 
 import LimitedAirdropMinter from '../constants/LimitedAirdropMinter.json';
-const TARGET_ADDRESS = "https://base-mints-frame/api/gated-mint";
+const TARGET_ADDRESS = "https://base-mints-frame.vercel.app/api/gated-mint";
 
 require('dotenv').config();
 

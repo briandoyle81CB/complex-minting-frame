@@ -1,7 +1,7 @@
 import { getFrameMetadata } from '@coinbase/onchainkit';
 import type { Metadata } from 'next';
 
-const imageUrl = 'https://base-mints-frame.app/test-bw.png';
+const imageUrl = 'https://base-mints-frame.vercel.app/test-bw.png';
 
 const frameMetadata = getFrameMetadata({
   buttons: [{ label: 'Recast & Click to Mint' }],
