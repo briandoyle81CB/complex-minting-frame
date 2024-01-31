@@ -133,6 +133,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     } else {
       // Try to mint and airdrop the NFT
       try {
+        console.log(`Minting for ${accountAddress}`);
         const { request } = await publicClient.simulateContract({
           account: nftOwnerAccount,
           address: LimitedAirdropMinter.address as `0x${string}`,
