@@ -4,9 +4,6 @@ import { EtherscanResponse } from '../../../types';
 import LandSeaSkyNFT from '../../constants/base/LandSeaSkyNFT.json';
 import { createPublicClient, http } from 'viem';
 import { base } from 'viem/chains';
-
-import sharp from 'sharp';
-
 const BASESCAN_API_KEY = process.env.BASESCAN_API_KEY;
 const PROVIDER_URL = process.env.PROVIDER_URL_MAINNET;
 
@@ -15,37 +12,20 @@ export async function GET(req: NextRequest) {
   const queryParams = url.searchParams;
 
   const { minted, address } = Object.fromEntries(queryParams.entries());
-
-
-
-  async function convertSvgStringToPng(svgString: string): Promise<Buffer> {
-    try {
-      // Convert the SVG string to a Buffer
-      const svgBuffer = Buffer.from(svgString);
-
-      // Use Sharp to convert the SVG buffer to a PNG buffer
-      const pngBuffer = await sharp(svgBuffer)
-        .png() // Convert to PNG
-        .toBuffer(); // Output as a Buffer
-
-      return pngBuffer;
-    } catch (error) {
-      console.error('Error converting SVG to PNG:', error);
-      throw error; // Or handle the error as needed
-    }
-  }
   
-  async function frameSvgStringToPngBlob(originalSvgString: string): Promise<Buffer> {
-    // Original SVG framing code
-    const originalSize: number = 1024;
-    const newWidth: number = originalSize * 1.91;
-    const centerX: number = newWidth / 2;
-    const clipStartX: number = centerX - 512;
+  function frameSvgStringToBlob(originalSvgString: string): Blob {
+    // Define the dimensions based on the 1.91:1 aspect ratio
+    const originalSize = 1024;
+    const newWidth = originalSize * 1.91; // 1955.84
+    const centerX = newWidth / 2;
+    const clipStartX = centerX - 512; // Start of the clip rectangle
 
-    const framedSvgString: string = `
+    // Create the new SVG string and add a clipPath to clip the contents
+    const framedSvgString = `
       <svg width="${newWidth}" height="${originalSize}" viewBox="0 0 ${newWidth} ${originalSize}" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <clipPath id="clip">
+            <!-- Set the clipping rectangle to start at clipStartX and be 1024 units wide -->
             <rect x="${clipStartX}" width="1024" height="${originalSize}" />
           </clipPath>
         </defs>
@@ -55,10 +35,11 @@ export async function GET(req: NextRequest) {
       </svg>
     `;
 
-    return await convertSvgStringToPng(framedSvgString);
+    // Convert the string to a blob
+    const blob = new Blob([framedSvgString], { type: 'image/svg+xml' });
+
+    return blob;
   }
-
-
 
   if (!minted || !address) {
     const img = await fetch('https://land-sea-and-sky.vercel.app/lss-bw.png').then((res) => res.blob());
@@ -120,14 +101,14 @@ export async function GET(req: NextRequest) {
       // Then decode the base64 encoded svg image
       const svg = atob(tokenMetadataJson.image.split(',')[1]);
       
-      // Turn the svg to a png
-      const pngBuffer = await frameSvgStringToPngBlob(svg);
-      console.log('pngBuffer.length:', pngBuffer.length);
-      
-      return new Response(pngBuffer, {
+      // Create a blob from the svg
+      const img = new Blob([frameSvgStringToBlob(svg)], { type: 'image/svg+xml' });
+
+      // Return the blob
+      return new NextResponse(img, {
         status: 200,
         headers: {
-          'Content-Type': 'image/png',
+          'Content-Type': 'image/svg+xml',
           'Cache-Control': 'max-age=10',
         }
       });
