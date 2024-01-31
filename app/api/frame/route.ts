@@ -4,7 +4,7 @@ import { privateKeyToAccount } from 'viem/accounts'
 import { baseSepolia } from 'viem/chains';
 import { createPublicClient, createWalletClient, getContract, http } from 'viem';
 
-import LandSeaSkyNFT from '../constants/LandSeaSkyNFT.json';
+import LandSeaSkyNFT from '../constants/sepolia/LandSeaSkyNFT.json';
 
 require('dotenv').config();
 

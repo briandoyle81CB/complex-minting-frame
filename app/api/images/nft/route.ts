@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { EtherscanResponse } from '../../../types';
 
-import LandSeaSkyNFT from '../../constants/LandSeaSkyNFT.json';
+import LandSeaSkyNFT from '../../constants/base/LandSeaSkyNFT.json';
 import { createPublicClient, http } from 'viem';
 import { base } from 'viem/chains';
 const BASESCAN_API_KEY = process.env.BASESCAN_API_KEY;
