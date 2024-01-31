@@ -7,12 +7,12 @@ import { Reaction, Cast, Frame } from '../../../app/types';
 import DebugData from '../../../ryan-recasts.json'
 
 import LimitedAirdropMinter from '../constants/LimitedAirdropMinter.json';
+const TARGET_ADDRESS = "https://base-mints-frame/api/gated-mint";
 
 require('dotenv').config();
 
 const WALLET_PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
 const PROVIDER_URL = process.env.PROVIDER_URL;
-const TARGET_ADDRESS = "https://base-mints-frame/api/gated-mint";
 const NEYNAR_API_PRIVATE_KEY = process.env.NEYNAR_API_PRIVATE_KEY;
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
