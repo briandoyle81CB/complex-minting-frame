@@ -114,6 +114,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   if (minted) {
     let upgraded = false;
+    let tokenId = "";
     try {
       // TODO: This is also done in the image route, so we should probably refactor this
       // Find out of the address still owns the NFT, and if so, what the token ID is
@@ -131,12 +132,13 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
       // Remove any token IDS that are in tokenIdsFrom from tokenIds
       const tokenIdsTo = tokenIds.filter((tokenId) => !tokenIdsFrom.includes(tokenId));
+      tokenId = tokenIdsTo[0]; // Note:  This doesn't handle the edge case where an address is gifted an nft first, then mints one
 
       upgraded = !!await publicClient.readContract({
         address: LandSeaSkyNFT.address as `0x${string}`,
         abi: LandSeaSkyNFT.abi,
         functionName: 'upgraded',
-        args: [tokenIdsTo[0]] // Note:  This doesn't handle the edge case where an address is gifted an nft first, then mints one
+        args: [tokenId] 
       });
     } catch (err) {
       console.error("Failure getting upgraded status");
@@ -154,6 +156,25 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       const recast = await checkForReacast(message?.fid as number);
       if (recast) {
         // Try to upgrade the NFT
+        try {
+          console.log(`Upgrading for ${accountAddress}`);
+          const { request } = await publicClient.simulateContract({
+            account: nftOwnerAccount,
+            address: LandSeaSkyNFT.address as `0x${string}`,
+            abi: LandSeaSkyNFT.abi,
+            functionName: 'upgradeToken',
+            args: [tokenId]
+          });
+          await nftOwnerClient.writeContract(request);
+        } catch (err) {
+          console.error("Failure upgrading");
+          console.error(err);
+        }
+        return new NextResponse(`<!DOCTYPE html><html><head>
+        <meta property="fc:frame" content="vNext" />
+        <meta property="fc:frame:image" content="${imgUrl}" />
+        <meta property="fc:frame:button:1" content="Thanks for upgrading, enjoy your whale!" />
+      </head></html>`);
       } else {
         return new NextResponse(`<!DOCTYPE html><html><head>
         <meta property="fc:frame" content="vNext" />
