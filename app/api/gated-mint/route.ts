@@ -74,6 +74,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
      */
 
     const fid = message?.fid;
+    console.log(`fid: ${fid}`);
       
     let reactions: any;
     
@@ -99,6 +100,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       const reactionsJson = await response.json();
       reactions = reactionsJson?.data?.reactions;
     } else {
+      console.error(`Error fetching reactions from neynar`);
       console.error(response);
     }
 
