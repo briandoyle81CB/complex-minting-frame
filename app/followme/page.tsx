@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 export default function Test() {
   return (
     <>
-      <h1>Test NFT</h1>
+      <h1>Test Follow Me NFT</h1>
     </>
   );
 }

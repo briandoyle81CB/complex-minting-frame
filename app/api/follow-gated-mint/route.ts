@@ -17,12 +17,13 @@ require('dotenv').config();
 const PROVIDER_URL = process.env.PROVIDER_URL_TESTNET;
 const NEYNAR_API_PRIVATE_KEY = process.env.NEYNAR_API_PRIVATE_KEY;
 const WALLET_PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
-const CASTER_FID = 10426; // Brian Doyle
-// const CASTER_FID = 12142; // *base: The user sending the frame, who needs to be followed
+// const CASTER_FID = 10426; // Brian Doyle
+const CASTER_FID = 12142; // *base: The user sending the frame, who needs to be followed
 
 function checkForFollower(fid: number, followers: User[]): boolean {
   let found = false;
   for (const follower of followers) {
+    // console.log(`Checking follower ${follower.fid}`);
     if (follower.fid === fid) {
       found = true;
       break;
@@ -33,15 +34,19 @@ function checkForFollower(fid: number, followers: User[]): boolean {
 
 async function getIfFollowed(fid: number) {
   let lastCursor;
-
+  let calls = 0;
   do
   {
-    const { followers, cursor: lastCursor } = await callIfFollowed(fid, undefined);
-    
+    const { followers, cursor } = await callIfFollowed(fid, lastCursor);
+    calls++;
+    console.log(`Call ${calls} to getIfFollowed`);
+    lastCursor = cursor;
+
     let found = checkForFollower(fid, followers);
     if (found) {
       return found;
     }
+    console.log("lastCursor: ", lastCursor);
   } while (lastCursor);
   
   return false;
@@ -50,7 +55,7 @@ async function getIfFollowed(fid: number) {
 async function callIfFollowed(fid: number, cursor: string | undefined) {
   let followers: any;
 
-  let API_URL = `https://api.neynar.com/v1/farcaster/followers?fid=${fid}&viewerFid=${CASTER_FID}&limit=150`
+  let API_URL = `https://api.neynar.com/v1/farcaster/followers?fid=${CASTER_FID}&viewerFid=${CASTER_FID}&limit=150`
   if (cursor) {
     API_URL += `&cursor=${cursor}`;
   }
@@ -70,8 +75,8 @@ async function callIfFollowed(fid: number, cursor: string | undefined) {
   
   if (response.ok) {
     const followersJson = await response.json();
-    followers = followersJson?.users;
-    cursor = followersJson?.next?.cursor;
+    followers = followersJson?.result?.users;
+    cursor = followersJson?.result?.next?.cursor;
   } else {
     console.error(`Error fetching reactions from neynar`);
     console.error(response);
@@ -138,12 +143,15 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
      */
 
     const fid = message?.fid;
+    // const fid = 1;
     console.log(`fid: ${fid}`);
       
     let found = false;
 
     if (fid) {
+      console.log(`Checking if ${fid} follows ${CASTER_FID}`);
       found = await getIfFollowed(fid);
+      console.log(`Did we find recast for farcaster user ${fid}: ${found}`)
     }
     
     if (!found) {
