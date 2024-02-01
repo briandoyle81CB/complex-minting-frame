@@ -100,8 +100,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   
   // Hack to cache the list of followers
   if (userCache.size === 0) {
-    getIfFollowed(0);
-    return new NextResponse("Loaded cache");
+    await getIfFollowed(0);
+
   }
 
   let accountAddress: string | undefined = '';
