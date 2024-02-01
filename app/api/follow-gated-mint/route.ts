@@ -17,8 +17,8 @@ require('dotenv').config();
 const PROVIDER_URL = process.env.PROVIDER_URL_TESTNET;
 const NEYNAR_API_PRIVATE_KEY = process.env.NEYNAR_API_PRIVATE_KEY;
 const WALLET_PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
-// const CASTER_FID = 10426; // Brian Doyle
-const CASTER_FID = 12142; // *base: The user sending the frame, who needs to be followed
+const CASTER_FID = 10426; // Brian Doyle
+// const CASTER_FID = 12142; // *base: The user sending the frame, who needs to be followed
 
 function checkForFollower(fid: number, followers: User[]): boolean {
   let found = false;
