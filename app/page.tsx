@@ -1,11 +1,15 @@
+/**
+ * This page is not compliant with the latest patterns.
+ * It needs to be updated.
+ * Use follow-gated-mint/page.ts as a reference.
+ */
+
 import { getFrameMetadata } from '@coinbase/onchainkit';
 import type { Metadata } from 'next';
 import { getFrameAccountAddress } from '@coinbase/onchainkit';
 
-
 // const imageUrl = `https://land-sea-and-sky.vercel.app/api/images/nft`;
 const imageUrl = 'https://land-sea-and-sky.vercel.app/test-bw.png';
-
 
 const frameMetadata = getFrameMetadata({
   buttons: [{ label: 'Recast & Click to Mint' }],

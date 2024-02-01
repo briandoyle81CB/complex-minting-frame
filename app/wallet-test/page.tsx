@@ -10,17 +10,17 @@ import type { Metadata } from 'next';
 const imageUrl = 'https://base-mints-frame.vercel.app/test-bw.png';
 
 const frameMetadata = getFrameMetadata({
-  buttons: [{ label: 'Recast & Click to Mint' }],
+  buttons: [{ label: 'Follow Us & Click to Mint' }],
   image: imageUrl,
-  post_url: `https://base-mints-frame.vercel.app/api/gated-mint`,
+  post_url: `https://base-mints-frame.vercel.app/api/follow-gated-mint`,
 });
 
 export const metadata: Metadata = {
-  title: 'Test NFT',
-  description: 'A TEST!',
+  title: 'Gif NFT',
+  description: 'Gif NFT!',
   openGraph: {
-    title: 'Test NFT',
-    description: 'A TEST!!',
+    title: 'Gif NFT',
+    description: 'Gif NFT!!',
     images: [imageUrl],
   },
   other: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 export default function Test() {
   return (
     <>
-      <h1>Test NFT</h1>
+      <h1>Follow then Mint NFT</h1>
     </>
   );
 }

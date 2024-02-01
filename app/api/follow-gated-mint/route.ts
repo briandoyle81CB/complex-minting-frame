@@ -1,26 +1,84 @@
 /**
- * This route is not compliant with the latest patterns.
- * It needs to be updated.
- * Use api/follow-gated-mint/route.ts as a reference.
+ * Follow to mint, mint using custom ERC-721
  */
-
-// TODO: Rename to recast-gated-mint
 
 import { FrameRequest, getFrameAccountAddress, getFrameMessage } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
 import { privateKeyToAccount } from 'viem/accounts'
 import { baseSepolia } from 'viem/chains';
 import { createPublicClient, createWalletClient, http } from 'viem';
-import { Reaction, Cast, Frame } from '../../../app/types';
 
 import LimitedAirdropMinter from '../constants/sepolia/LimitedAirdropMinter.json';
-const TARGET_ADDRESS = "https://base-mints-frame.vercel.app/api/gated-mint";
+import { User } from '../../types';
+const TARGET_ADDRESS = "https://base-mints-frame.vercel.app/api/follow-gated-mint";
 
 require('dotenv').config();
 
-const WALLET_PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
 const PROVIDER_URL = process.env.PROVIDER_URL_TESTNET;
 const NEYNAR_API_PRIVATE_KEY = process.env.NEYNAR_API_PRIVATE_KEY;
+const WALLET_PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
+// const CASTER_FID = 10426; // Brian Doyle
+const CASTER_FID = 12142; // *base: The user sending the frame, who needs to be followed
+
+function checkForFollower(fid: number, followers: User[]): boolean {
+  let found = false;
+  for (const follower of followers) {
+    if (follower.fid === fid) {
+      found = true;
+      break;
+    }
+  }
+  return found;
+}
+
+async function getIfFollowed(fid: number) {
+  let lastCursor;
+
+  do
+  {
+    const { followers, cursor: lastCursor } = await callIfFollowed(fid, undefined);
+    
+    let found = checkForFollower(fid, followers);
+    if (found) {
+      return found;
+    }
+  } while (lastCursor);
+  
+  return false;
+}
+
+async function callIfFollowed(fid: number, cursor: string | undefined) {
+  let followers: any;
+
+  let API_URL = `https://api.neynar.com/v1/farcaster/followers?fid=${fid}&viewerFid=${CASTER_FID}&limit=150`
+  if (cursor) {
+    API_URL += `&cursor=${cursor}`;
+  }
+  
+  const options = {
+    method: 'GET',
+    url: API_URL,
+    headers: {
+      accept: 'application/json',
+      api_key: NEYNAR_API_PRIVATE_KEY as string
+    }
+  };
+  const response = await fetch(options.url, { headers: options.headers });
+  if (response.status !== 200) {
+    console.error(`non-200 status returned from neynar : ${response.status}`);
+  }
+  
+  if (response.ok) {
+    const followersJson = await response.json();
+    followers = followersJson?.users;
+    cursor = followersJson?.next?.cursor;
+  } else {
+    console.error(`Error fetching reactions from neynar`);
+    console.error(response);
+  }
+  
+  return {followers, cursor};
+}
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
@@ -75,64 +133,24 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   </head></html>`);
   } else {
     /**
-     * @dev Optional: Check if the Farcaster user has recast the Frame
+     * @dev Optional: Check if the Farcaster user follows the caster
      * 
-     * We'll only check the last 100 recasts for the user
      */
 
     const fid = message?.fid;
     console.log(`fid: ${fid}`);
       
-    let reactions: any;
-    
-    // DEBUG
-    // reactions = DebugData.reactions;
-    const API_URL = `https://api.neynar.com/v2/farcaster/reactions/user?fid=${fid}&type=recasts&limit=50`
-    const options = {
-      method: 'GET',
-      url: API_URL,
-      headers: {
-        accept: 'application/json',
-        api_key: NEYNAR_API_PRIVATE_KEY as string
-      }
-    };
-    const response = await fetch(options.url, { headers: options.headers });
-    if (response.status !== 200) {
-      console.error(`non-200 status returned from neynar : ${response.status}`);
-    }
-      
-    if (response.ok) {
-      const reactionsJson = await response.json();
-      reactions = reactionsJson?.reactions;
-    } else {
-      console.error(`Error fetching reactions from neynar`);
-      console.error(response);
-    }
-
     let found = false;
 
-    if (reactions && Array.isArray(reactions)) {
-      for (const reaction of reactions as Reaction[]) {
-        if (reaction?.cast?.frames) {
-          for (const frame of reaction.cast.frames) {
-            if (frame.post_url === TARGET_ADDRESS) {
-              found = true;
-              break;
-            }
-          }
-        }
-        if (found) {
-          console.log(`Found recast for ${accountAddress}, farcaster user ${fid}`);
-          break;
-        }
-      }
+    if (fid) {
+      found = await getIfFollowed(fid);
     }
-
+    
     if (!found) {
       return new NextResponse(`<!DOCTYPE html><html><head>
       <meta property="fc:frame" content="vNext" />
       <meta property="fc:frame:image" content="${bwUrl}" />
-      <meta property="fc:frame:button:1" content="Recast, wait a moment, and click again!" />
+      <meta property="fc:frame:button:1" content="Follow, wait a moment, and click again!" />
       <meta property="fc:frame:post_url" content="${TARGET_ADDRESS}" />
     </head></html>`);
     } else {

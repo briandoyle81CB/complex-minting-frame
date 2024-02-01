@@ -1,3 +1,9 @@
+/**
+ * This route is not compliant with the latest patterns.
+ * It needs to be updated AND MAY BE BROKEN.
+ * Use api/follow-gated-mint/route.ts as a reference.
+ */
+
 import { FrameRequest, getFrameAccountAddress, getFrameMessage } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
 import { privateKeyToAccount } from 'viem/accounts'

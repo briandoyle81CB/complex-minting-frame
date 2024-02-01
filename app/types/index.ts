@@ -39,3 +39,7 @@ export interface Cast {
 export interface Frame {
   post_url: string;
 }
+
+export interface User {
+  fid: number;
+}

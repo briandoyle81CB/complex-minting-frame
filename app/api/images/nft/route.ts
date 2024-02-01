@@ -1,3 +1,12 @@
+/**
+ * This route is not compliant with the latest patterns.
+ * You only need to do this if you have a reason to get the
+ * specific art for a specific token.
+ * 
+ * If you just want to show the art for a token, place it in `public`
+ * and load it from there.
+ */
+
 import { NextRequest, NextResponse } from 'next/server';
 import { EtherscanResponse } from '../../../types';
 

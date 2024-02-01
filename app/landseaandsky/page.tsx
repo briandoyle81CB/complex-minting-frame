@@ -1,3 +1,9 @@
+/**
+ * This page is not compliant with the latest patterns.
+ * It needs to be updated.
+ * Use follow-gated-mint/page.ts as a reference.
+ */
+
 import { getFrameMetadata } from '@coinbase/onchainkit';
 import type { Metadata } from 'next';
 
