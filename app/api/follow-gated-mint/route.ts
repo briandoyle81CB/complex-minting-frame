@@ -49,14 +49,14 @@ async function getIfFollowed(fid: number) {
   {
     const { followers, cursor } = await callIfFollowed(fid, lastCursor);
     calls++;
-    console.log(`Call ${calls} to getIfFollowed`);
+    // console.log(`Call ${calls} to getIfFollowed`);
     lastCursor = cursor;
 
     let found = checkForFollower(fid, followers);
     if (found) {
       return found;
     }
-    console.log("lastCursor: ", lastCursor);
+    // console.log("lastCursor: ", lastCursor);
   } while (lastCursor);
   
   return false;
