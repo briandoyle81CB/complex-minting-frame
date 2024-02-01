@@ -86,6 +86,7 @@ async function callIfFollowed(fid: number, cursor: string | undefined) {
 }
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
+  console.log("Follow Gate Mint");
   let accountAddress: string | undefined = '';
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body);
