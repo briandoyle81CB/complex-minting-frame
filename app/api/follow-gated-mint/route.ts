@@ -10,6 +10,7 @@ import { createPublicClient, createWalletClient, http } from 'viem';
 
 import LimitedAirdropMinter from '../constants/sepolia/LimitedAirdropMinter.json';
 import { User } from '../../types';
+
 const TARGET_ADDRESS = "https://base-mints-frame.vercel.app/api/follow-gated-mint";
 
 require('dotenv').config();
@@ -20,10 +21,16 @@ const WALLET_PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
 // const CASTER_FID = 10426; // Brian Doyle
 const CASTER_FID = 12142; // *base: The user sending the frame, who needs to be followed
 
+const userCache: Map<number, boolean> = new Map();
+
 function checkForFollower(fid: number, followers: User[]): boolean {
   let found = false;
   for (const follower of followers) {
-    // console.log(`Checking follower ${follower.fid}`);
+    // If the user is in the cache, we've hit the cache, return false
+    if (userCache.has(follower.fid)) {
+      return false;
+    }
+    userCache.set(follower.fid, true);
     if (follower.fid === fid) {
       found = true;
       break;
@@ -33,6 +40,9 @@ function checkForFollower(fid: number, followers: User[]): boolean {
 }
 
 async function getIfFollowed(fid: number) {
+  if (userCache.has(fid)) {
+    return userCache.get(fid);
+  }
   let lastCursor;
   let calls = 0;
   do
@@ -87,6 +97,13 @@ async function callIfFollowed(fid: number, cursor: string | undefined) {
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   console.log("Follow Gate Mint");
+  
+  // Hack to cache the list of followers
+  if (userCache.size === 0) {
+    getIfFollowed(0);
+    return new NextResponse("Loaded cache");
+  }
+
   let accountAddress: string | undefined = '';
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body);
@@ -151,7 +168,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
     if (fid) {
       console.log(`Checking if ${fid} follows ${CASTER_FID}`);
-      found = await getIfFollowed(fid);
+      found = await getIfFollowed(fid) || false;
       console.log(`Did we find recast for farcaster user ${fid}: ${found}`)
     }
     
