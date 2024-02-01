@@ -1,6 +1,6 @@
 {
   "functions": {
-    "api/follow-gated-mint/route.ts": {
+    "api/follow-gated-mint/route": {
       "maxDuration": 60
     }
   }
