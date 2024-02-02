@@ -70,7 +70,7 @@ const MINTED_CONTENT = `<!DOCTYPE html><html><head>
       <meta property="fc:frame:image" content="${colorUrl}" />
       <meta property="fc:frame:button:1" content="Thanks for Minting!" />
       <meta property="fc:frame:button:1:action" content="post_redirect" />
-      <meta property="fc:frame:post_url" content="${'https://base-mints-frame.vercel.app/api/redirect'}" />
+      <meta property="fc:frame:post_url" content="https://base-mints-frame.vercel.app/api/redirect" />
     </head></html>`;
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
