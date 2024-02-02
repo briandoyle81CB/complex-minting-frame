@@ -8,7 +8,7 @@ import { privateKeyToAccount } from 'viem/accounts'
 import { base } from 'viem/chains';
 import { createPublicClient, createWalletClient, http } from 'viem';
 
-import LimitedAirdropMinter from '../constants/sepolia/LimitedAirdropMinter.json';
+import LimitedAirdropMinter from '../constants/base/getOnchainToday.json';
 
 const TARGET_ADDRESS = "https://base-mints-frame.vercel.app/api/get-onchain-today";
 
