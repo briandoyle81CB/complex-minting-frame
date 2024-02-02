@@ -14,7 +14,8 @@ const TARGET_ADDRESS = "https://base-mints-frame.vercel.app/api/get-onchain-toda
 
 require('dotenv').config();
 
-const PROVIDER_URL = process.env.PROVIDER_URL_TESTNET;
+// CRITICAL UPDATE FOR MAINNET!!!
+const PROVIDER_URL = process.env.PROVIDER_URL_MAINNET;
 const NEYNAR_API_PRIVATE_KEY = process.env.NEYNAR_API_PRIVATE_KEY;
 const WALLET_PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
 // const CASTER_FID = 10426; // Brian Doyle
@@ -82,6 +83,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   });
 
   let minted = false;
+
+  console.log(`GET ONCHAIN TODAY: Account address: ${accountAddress}`);
 
   try {
     minted = !!await publicClient.readContract({
