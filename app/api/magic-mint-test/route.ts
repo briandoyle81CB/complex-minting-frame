@@ -145,7 +145,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         url: API_URL,
         body: {
           userAddress: accountAddress,
-          command: "magic-mint-frame-demo"
+          command: "magic-mint-frame-demo-test"
         }
       };
 
