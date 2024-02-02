@@ -108,8 +108,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     <meta property="fc:frame" content="vNext" />
     <meta property="fc:frame:image" content="${colorUrl}" />
     <meta property="fc:frame:button:1" content="Thanks for minting!" />
-    <meta property="fc:frame:button:2" content="Go to the link (TODO)" />
-    <meta property="fc:frame:button:2:action:post_redirect" content="https://www.google.com" />
+    
   </head></html>`);
   } else {
     /**
@@ -161,6 +160,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
           <meta property="fc:frame:image" content="${bwUrl}" />
           <meta property="fc:frame:button:1" content="Something went wrong..." />
           <meta property="fc:frame:button:1:action" content="post_redirect" />
+          <meta property="fc:frame:post_url" content="${'https://base-mints-frame.vercel.app/api/redirect'}" />
         </head></html>`);
       }
 
