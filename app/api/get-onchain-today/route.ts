@@ -35,7 +35,7 @@ async function callIfFollowed(fid: number) {
   };
   const response = await fetch(options.url, { headers: options.headers });
   if (response.status !== 200) {
-    console.error(`non-200 status returned from neynar : ${response.status}`);
+    console.error(`GET ONCHAIN TODAY: non-200 status returned from neynar : ${response.status}`);
   }
   
   if (response.ok) {
@@ -43,7 +43,7 @@ async function callIfFollowed(fid: number) {
     follows = followsJson?.result?.user?.viewerContext?.following; // The viewer of this info is following the CASTER_FID
     
   } else {
-    console.error(`Error fetching reactions from neynar`);
+    console.error(`GET ONCHAIN TODAY: Error fetching reactions from neynar`);
     console.error(response);
   }
   
@@ -51,7 +51,7 @@ async function callIfFollowed(fid: number) {
 }
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
-  console.log("Get Onchain Today");
+  console.log("GET ONCHAIN TODAY: Get Onchain Today");
   
   let accountAddress: string | undefined = '';
   const body: FrameRequest = await req.json();
@@ -60,6 +60,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     try {
       accountAddress = await getFrameAccountAddress(message, { NEYNAR_API_KEY: 'NEYNAR_API_DOCS' }) as string;
     } catch (err) {
+      console.log("GET ONCHAIN TODAY: Failed to get address");
       console.error(err);
       // For local testing
       // accountAddress = '0x69a5B3aE8598fC5A5419eaa1f2A59Db2D052e346';
@@ -90,7 +91,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       args: [accountAddress]
     });
   } catch (err) {
-    console.error("Failure getting minted status");
+    console.error("GET ONCHAIN TODAY: Failure getting minted status");
     console.error(err);
   }
 
@@ -111,13 +112,13 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
     const fid = message?.fid;
     // const fid = 1;
-    console.log(`fid: ${fid}`);
+    console.log(`GET ONCHAIN TODAY: fid: ${fid}`);
       
     let found = false;
 
     if (fid) {
       found = await callIfFollowed(fid);
-      console.log(`Did we find recast for farcaster user ${fid}: ${found}`)
+      console.log(`GET ONCHAIN TODAY: Did we find recast for farcaster user ${fid}: ${found}`)
     }
     
     if (!found) {
@@ -130,7 +131,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     } else {
       // Try to mint and airdrop the NFT
       try {
-        console.log(`Minting for ${accountAddress}`);
+        console.log(`GET ONCHAIN TODAY: Minting for ${accountAddress}`);
         const { request } = await publicClient.simulateContract({
           account: nftOwnerAccount,
           address: LimitedAirdropMinter.address as `0x${string}`,
@@ -140,7 +141,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         });
         await nftOwnerClient.writeContract(request);
       } catch (err) {
-        console.error("Failure minting");
+        console.error("GET ONCHAIN TODAY: Failure minting");
         console.error(err);
       }
       return new NextResponse(`<!DOCTYPE html><html><head>
