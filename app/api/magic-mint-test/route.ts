@@ -56,22 +56,22 @@ async function callIfFollowed(fid: number) {
   return follows;
 }
 
-const MINTED_RESPONSE = getFrameHtmlResponse({
-  buttons: [
-    { label: "Thanks for Minting!", action: "post_redirect" }
-  ],
-  image: colorUrl,
-  post_url: "https://base-mints-frame.vercel.app/api/redirect"
-});
+// const MINTED_RESPONSE = getFrameHtmlResponse({
+//   buttons: [
+//     { label: "Thanks for Minting!", action: "post_redirect" }
+//   ],
+//   image: colorUrl,
+//   post_url: "https://base-mints-frame.vercel.app/api/redirect"
+// });
 
 
-// const MINTED_CONTENT = `<!DOCTYPE html><html><head>
-//       <meta property="fc:frame" content="vNext" />
-//       <meta property="fc:frame:image" content="${colorUrl}" />
-//       <meta property="fc:frame:button:1" content="Thanks for Minting!" />
-//       <meta property="fc:frame:button:1:action" content="post_redirect" />
-//       <meta property="fc:frame:post_url" content="${'https://base-mints-frame.vercel.app/api/redirect'}" />
-//     </head></html>`;
+const MINTED_CONTENT = `<!DOCTYPE html><html><head>
+      <meta property="fc:frame" content="vNext" />
+      <meta property="fc:frame:image" content="${colorUrl}" />
+      <meta property="fc:frame:button:1" content="Thanks for Minting!" />
+      <meta property="fc:frame:button:1:action" content="post_redirect" />
+      <meta property="fc:frame:post_url" content="${'https://base-mints-frame.vercel.app/api/redirect'}" />
+    </head></html>`;
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   console.log("Magic Mint Test");
@@ -120,7 +120,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   }
 
   if (minted) {
-    return new NextResponse(MINTED_RESPONSE);
+    return new NextResponse(MINTED_CONTENT);
   } else {
     /**
      * @dev Optional: Check if the Farcaster user follows the caster
@@ -173,7 +173,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         </head></html>`);
       }
 
-      return new NextResponse(MINTED_RESPONSE);
+      return new NextResponse(MINTED_CONTENT);
     }
   }
 }
