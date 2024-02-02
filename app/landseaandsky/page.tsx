@@ -10,9 +10,9 @@ import type { Metadata } from 'next';
 const imageUrl = `https://base-mints-frame.vercel.app/api/images/nft`;
 
 const frameMetadata = getFrameMetadata({
-  buttons: [{ label: 'Click to Mint, Upgrade, or View NFT' }],
+  buttons: [{ label: 'Minting Over - View NFT' }],
   image: imageUrl,
-  post_url: `https://base-mints-frame.vercel.app/api/gated-upgrade`,
+  post_url: `https://base-mints-frame.vercel.app/api/gated-upgrade-over`,
 });
 
 export const metadata: Metadata = {
