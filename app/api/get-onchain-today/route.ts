@@ -9,6 +9,7 @@ import { base } from 'viem/chains';
 import { createPublicClient, createWalletClient, http } from 'viem';
 
 import LimitedAirdropMinter from '../constants/base/getOnchainToday.json';
+import { call } from 'viem/_types/actions/public/call';
 
 const TARGET_ADDRESS = "https://base-mints-frame.vercel.app/api/get-onchain-today";
 
@@ -24,8 +25,12 @@ const CASTER_FID = 12142; // @Base: The user sending the frame, who needs to be 
  
 async function callIfFollowed(fid: number): Promise<boolean> {
   let follows = false;
-  let API_URL = `https://api.neynar.com/v1/farcaster/user?fid=${CASTER_FID}&viewerFid=${fid}'`
+  const API_URL = `https://api.neynar.com/v1/farcaster/user?fid=${CASTER_FID}&viewerFid=${fid}`;
+  // console.log(API_URL);
   
+  // const API_URL_2 = 'https://api.neynar.com/v1/farcaster/user?fid=12142&viewerFid=10426';
+  // console.log(API_URL_2);
+
   const options = {
     method: 'GET',
     url: API_URL,
@@ -40,8 +45,12 @@ async function callIfFollowed(fid: number): Promise<boolean> {
   }
   
   if (response.ok) {
+    console.log(`GET ONCHAIN TODAY: Response OK`);
+    // console.log(response);
     const followsJson = await response.json();
+    console.log("followsJson%%%%", followsJson?.result);
     follows = followsJson?.result?.user?.viewerContext?.following; // The viewer of this info is following the CASTER_FID
+
     console.log(`GET ONCHAIN TODAY: Is ${fid} following ${CASTER_FID}: ${follows}`)
   } else {
     console.error(`GET ONCHAIN TODAY: Error fetching reactions from neynar`);
@@ -52,6 +61,10 @@ async function callIfFollowed(fid: number): Promise<boolean> {
 }
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
+
+  // const test = await callIfFollowed(10426);
+  console.log(`GET ONCHAIN TODAY: Test: ${test}`);
+
   console.log("GET ONCHAIN TODAY: Get Onchain Today");
   
   let accountAddress: string | undefined = '';
