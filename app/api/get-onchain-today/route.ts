@@ -22,7 +22,7 @@ const WALLET_PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
 const CASTER_FID = 12142; // @Base: The user sending the frame, who needs to be followed
 
  
-async function callIfFollowed(fid: number) {
+async function callIfFollowed(fid: number): Promise<boolean> {
   let follows = false;
   let API_URL = `https://api.neynar.com/v1/farcaster/user?fid=${CASTER_FID}&viewerFid=${fid}'`
   
