@@ -114,62 +114,64 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   const bwUrl = `https://base-mints-frame.vercel.app/test-bw.png`;
   const colorUrl = `https://base-mints-frame.vercel.app/test-color.png`;
 
-  // if (minted) {
-  if (true) {
+  if (minted) {
     return new NextResponse(`<!DOCTYPE html><html><head>
     <meta property="fc:frame" content="vNext" />
     <meta property="fc:frame:image" content="${colorUrl}" />
     <meta property="fc:frame:button:1" content="Thanks for minting!" />
-    <meta property="fc:frame:button:2" content="Go to the link" />
+    <meta property="fc:frame:button:2" content="Go to the link (TODO)" />
     <meta property="fc:frame:button:2:action:post_redirect" content="https://www.google.com" />
   </head></html>`);
-  // } else {
+  } else {
     /**
      * @dev Optional: Check if the Farcaster user follows the caster
      * 
      */
 
-    // const fid = message?.fid;
-    // // const fid = 1;
-    // console.log(`fid: ${fid}`);
+    const fid = message?.fid;
+    // const fid = 1;
+    console.log(`fid: ${fid}`);
       
-    // let found = false;
+    let found = false;
 
-    // if (fid) {
-    //   console.log(`Checking if ${fid} follows ${CASTER_FID}`);
-    //   found = await callIfFollowed(fid);
-    //   console.log(`Did we find recast for farcaster user ${fid}: ${found}`)
-    // }
+    if (fid) {
+      console.log(`Checking if ${fid} follows ${CASTER_FID}`);
+      found = await callIfFollowed(fid);
+      console.log(`Did we find recast for farcaster user ${fid}: ${found}`)
+    }
     
-    // if (!found) {
-    //   return new NextResponse(`<!DOCTYPE html><html><head>
-    //   <meta property="fc:frame" content="vNext" />
-    //   <meta property="fc:frame:image" content="${bwUrl}" />
-    //   <meta property="fc:frame:button:1" content="Follow, wait a moment, and click again!" />
-    //   <meta property="fc:frame:post_url" content="${TARGET_ADDRESS}" />
-    // </head></html>`);
-    // } else {
-    //   // Try to mint and airdrop the NFT
-    //   try {
-    //     console.log(`Minting for ${accountAddress}`);
-    //     const { request } = await publicClient.simulateContract({
-    //       account: nftOwnerAccount,
-    //       address: AbiWith721.address as `0x${string}`,
-    //       abi: AbiWith721.abi,
-    //       functionName: 'mintFor',
-    //       args: [accountAddress]
-    //     });
-    //     await nftOwnerClient.writeContract(request);
-    //   } catch (err) {
-    //     console.error("Failure minting");
-    //     console.error(err);
-    //   }
-    //   return new NextResponse(`<!DOCTYPE html><html><head>
-    //   <meta property="fc:frame" content="vNext" />
-    //   <meta property="fc:frame:image" content="${colorUrl}" />
-    //   <meta property="fc:frame:button:1" content="Thanks for Minting!" />
-    // </head></html>`);
-    // }
+    if (!found) {
+      return new NextResponse(`<!DOCTYPE html><html><head>
+      <meta property="fc:frame" content="vNext" />
+      <meta property="fc:frame:image" content="${bwUrl}" />
+      <meta property="fc:frame:button:1" content="Follow, wait a moment, and click again!" />
+      <meta property="fc:frame:post_url" content="${TARGET_ADDRESS}" />
+    </head></html>`);
+    } else {
+      // Try to mint and airdrop the NFT
+
+      console.log(`Minting for ${accountAddress}`);
+      const API_URL = "https://api.wallet.coinbase.com/rpc/v2/bot/mint";
+      const options = {
+        method: 'POST',
+        url: API_URL,
+        body: {
+          userAddress: accountAddress,
+          command: "magic-mint-frame-demo"
+        }
+      };
+
+      const response = await fetch(options.url, { method: options.method, body: JSON.stringify(options.body) });
+          
+      if (!response.ok) {
+        console.error("Failure with magic minting");
+      }
+      return new NextResponse(`<!DOCTYPE html><html><head>
+      <meta property="fc:frame" content="vNext" />
+      <meta property="fc:frame:image" content="${colorUrl}" />
+      <meta property="fc:frame:button:1" content="Thanks for Minting!" />
+    </head></html>`);
+    }
   }
 }
 
