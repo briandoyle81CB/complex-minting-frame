@@ -12,6 +12,8 @@ import ERC1155ABI from '../constants/base/erc1155.json';
 
 const CONTRACT_ADDRESS = "0xCbD226Ad2Aae2C658063F4E3eF610AAe378513E6";
 
+const bwUrl = `https://base-mints-frame.vercel.app/test-bw.png`;
+const colorUrl = `https://base-mints-frame.vercel.app/test-color.png`;
 
 const TARGET_ADDRESS = "https://base-mints-frame.vercel.app/api/magic-mint-test";
 
@@ -53,6 +55,14 @@ async function callIfFollowed(fid: number) {
   
   return follows;
 }
+
+const MINTED_CONTENT = `<!DOCTYPE html><html><head>
+      <meta property="fc:frame" content="vNext" />
+      <meta property="fc:frame:image" content="${colorUrl}" />
+      <meta property="fc:frame:button:1" content="Thanks for Minting!" />
+      <meta property="fc:frame:button:1:action" content="post_redirect" />
+      <meta property="fc:frame:post_url" content="${'https://base-mints-frame.vercel.app/api/redirect'}" />
+    </head></html>`;
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   console.log("Magic Mint Test");
@@ -100,16 +110,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     console.error(err);
   }
 
-  const bwUrl = `https://base-mints-frame.vercel.app/test-bw.png`;
-  const colorUrl = `https://base-mints-frame.vercel.app/test-color.png`;
-
   if (minted) {
-    return new NextResponse(`<!DOCTYPE html><html><head>
-    <meta property="fc:frame" content="vNext" />
-    <meta property="fc:frame:image" content="${colorUrl}" />
-    <meta property="fc:frame:button:1" content="Thanks for minting!" />
-    
-  </head></html>`);
+    return new NextResponse(MINTED_CONTENT);
   } else {
     /**
      * @dev Optional: Check if the Farcaster user follows the caster
@@ -159,16 +161,10 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
           <meta property="fc:frame" content="vNext" />
           <meta property="fc:frame:image" content="${bwUrl}" />
           <meta property="fc:frame:button:1" content="Something went wrong..." />
-          <meta property="fc:frame:button:1:action" content="post_redirect" />
-          <meta property="fc:frame:post_url" content="${'https://base-mints-frame.vercel.app/api/redirect'}" />
         </head></html>`);
       }
 
-      return new NextResponse(`<!DOCTYPE html><html><head>
-      <meta property="fc:frame" content="vNext" />
-      <meta property="fc:frame:image" content="${colorUrl}" />
-      <meta property="fc:frame:button:1" content="Thanks for Minting!" />
-    </head></html>`);
+      return new NextResponse(MINTED_CONTENT);
     }
   }
 }
