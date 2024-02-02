@@ -12,7 +12,7 @@
   "author": "@briandoyle81,@zizzamia",
   "license": "MIT",
   "dependencies": {
-    "@coinbase/onchainkit": "^0.3.0",
+    "@coinbase/onchainkit": "^0.4.1",
     "@farcaster/hub-nodejs": "^0.10.21",
     "bufferutil": "^4.0.8",
     "dotenv": "^16.4.1",
