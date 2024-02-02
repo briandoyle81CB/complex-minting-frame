@@ -154,7 +154,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
           
       if (!response.ok) {
         console.error("Failure with magic minting");
+        console.error(response);
       }
+
       return new NextResponse(`<!DOCTYPE html><html><head>
       <meta property="fc:frame" content="vNext" />
       <meta property="fc:frame:image" content="${colorUrl}" />
