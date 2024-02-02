@@ -42,7 +42,7 @@ async function callIfFollowed(fid: number) {
   if (response.ok) {
     const followsJson = await response.json();
     follows = followsJson?.result?.user?.viewerContext?.following; // The viewer of this info is following the CASTER_FID
-    
+    console.log(`GET ONCHAIN TODAY: Is ${fid} following ${CASTER_FID}: ${follows}`)
   } else {
     console.error(`GET ONCHAIN TODAY: Error fetching reactions from neynar`);
     console.error(response);
@@ -93,6 +93,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       functionName: 'minted',
       args: [accountAddress]
     });
+    console.log(`GET ONCHAIN TODAY: Minted status: ${minted}`);
   } catch (err) {
     console.error("GET ONCHAIN TODAY: Failure getting minted status");
     console.error(err);
@@ -123,7 +124,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       found = await callIfFollowed(fid);
     }
 
-    console.log(`GET ONCHAIN TODAY: Did we find recast for farcaster user ${fid}: ${found}`)
+    console.log(`GET ONCHAIN TODAY: Did we find folow for farcaster user ${fid}: ${found}`)
     
     if (!found) {
       return new NextResponse(`<!DOCTYPE html><html><head>
