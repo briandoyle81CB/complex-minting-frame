@@ -21,54 +21,10 @@ const WALLET_PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
 // const CASTER_FID = 10426; // Brian Doyle
 const CASTER_FID = 12142; // *base: The user sending the frame, who needs to be followed
 
-const userCache: Map<number, boolean> = new Map();
-
-function checkForFollower(fid: number, followers: User[]): boolean {
-  let found = false;
-  for (const follower of followers) {
-    // If the user is in the cache, we've hit the cache, return false
-    if (userCache.has(follower.fid)) {
-      return false;
-    }
-    userCache.set(follower.fid, true);
-    if (follower.fid === fid) {
-      found = true;
-      break;
-    }
-  }
-  return found;
-}
-
-async function getIfFollowed(fid: number) {
-  if (userCache.has(fid)) {
-    return userCache.get(fid);
-  }
-  let lastCursor;
-  let calls = 0;
-  do
-  {
-    const { followers, cursor } = await callIfFollowed(fid, lastCursor);
-    calls++;
-    // console.log(`Call ${calls} to getIfFollowed`);
-    lastCursor = cursor;
-
-    let found = checkForFollower(fid, followers);
-    if (found) {
-      return found;
-    }
-    // console.log("lastCursor: ", lastCursor);
-  } while (lastCursor);
-  
-  return false;
-}
-
-async function callIfFollowed(fid: number, cursor: string | undefined) {
-  let followers: any;
-
-  let API_URL = `https://api.neynar.com/v1/farcaster/followers?fid=${CASTER_FID}&viewerFid=${CASTER_FID}&limit=150`
-  if (cursor) {
-    API_URL += `&cursor=${cursor}`;
-  }
+ 
+async function callIfFollowed(fid: number) {
+  let follows = false;
+  let API_URL = `https://api.neynar.com/v1/farcaster/user?fid=${CASTER_FID}&viewerFid=${fid}'`
   
   const options = {
     method: 'GET',
@@ -84,26 +40,20 @@ async function callIfFollowed(fid: number, cursor: string | undefined) {
   }
   
   if (response.ok) {
-    const followersJson = await response.json();
-    followers = followersJson?.result?.users;
-    cursor = followersJson?.result?.next?.cursor;
+    const followsJson = await response.json();
+    follows = followsJson?.result?.user?.viewerContext?.following; // The viewer of this info is following the CASTER_FID
+    
   } else {
     console.error(`Error fetching reactions from neynar`);
     console.error(response);
   }
   
-  return {followers, cursor};
+  return follows;
 }
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   console.log("Follow Gate Mint");
   
-  // Hack to cache the list of followers
-  if (userCache.size === 0) {
-    await getIfFollowed(0);
-
-  }
-
   let accountAddress: string | undefined = '';
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body);
@@ -168,7 +118,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
     if (fid) {
       console.log(`Checking if ${fid} follows ${CASTER_FID}`);
-      found = await getIfFollowed(fid) || false;
+      found = await callIfFollowed(fid);
       console.log(`Did we find recast for farcaster user ${fid}: ${found}`)
     }
     
