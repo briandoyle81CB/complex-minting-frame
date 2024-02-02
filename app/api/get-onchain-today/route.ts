@@ -63,7 +63,7 @@ async function callIfFollowed(fid: number): Promise<boolean> {
 async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   // const test = await callIfFollowed(10426);
-  console.log(`GET ONCHAIN TODAY: Test: ${test}`);
+  // console.log(`GET ONCHAIN TODAY: Test: ${test}`);
 
   console.log("GET ONCHAIN TODAY: Get Onchain Today");
   
