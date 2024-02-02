@@ -5,7 +5,7 @@
 import { FrameRequest, getFrameAccountAddress, getFrameMessage } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
 import { privateKeyToAccount } from 'viem/accounts'
-import { baseSepolia } from 'viem/chains';
+import { base } from 'viem/chains';
 import { createPublicClient, createWalletClient, http } from 'viem';
 
 import LimitedAirdropMinter from '../constants/sepolia/LimitedAirdropMinter.json';
@@ -71,12 +71,12 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   
   const nftOwnerClient = createWalletClient({
     account: nftOwnerAccount,
-    chain: baseSepolia,
+    chain: base,
     transport: http(PROVIDER_URL as string)
   });
 
   const publicClient = createPublicClient({
-    chain: baseSepolia,
+    chain: base,
     transport: http(PROVIDER_URL as string)
   });
 
