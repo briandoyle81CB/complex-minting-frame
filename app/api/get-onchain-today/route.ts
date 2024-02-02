@@ -118,8 +118,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
     if (fid) {
       found = await callIfFollowed(fid);
-      console.log(`GET ONCHAIN TODAY: Did we find recast for farcaster user ${fid}: ${found}`)
     }
+
+    console.log(`GET ONCHAIN TODAY: Did we find recast for farcaster user ${fid}: ${found}`)
     
     if (!found) {
       return new NextResponse(`<!DOCTYPE html><html><head>
