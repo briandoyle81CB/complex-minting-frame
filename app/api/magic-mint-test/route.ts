@@ -5,30 +5,29 @@
 import { FrameRequest, getFrameAccountAddress, getFrameMessage } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
 import { privateKeyToAccount } from 'viem/accounts'
-import { baseSepolia } from 'viem/chains';
+import { base } from 'viem/chains';
 import { createPublicClient, createWalletClient, http } from 'viem';
 
-// TODO: Using another abi because it has the function I need, should be changed
-import AbiWith721 from '../constants/sepolia/LimitedAirdropMinter.json';
-import { EtherscanResponse, User } from '../../types';
+import ERC1155ABI from '../constants/base/erc1155.json';
 
 const CONTRACT_ADDRESS = "0xCbD226Ad2Aae2C658063F4E3eF610AAe378513E6";
 
-const TARGET_ADDRESS = "https://base-mints-frame.vercel.app/api/follow-gated-mint";
+
+const TARGET_ADDRESS = "https://base-mints-frame.vercel.app/api/magic-mint-test";
 
 require('dotenv').config();
 
-const PROVIDER_URL = process.env.PROVIDER_URL_TESTNET;
+const PROVIDER_URL = process.env.PROVIDER_URL_MAINNET;
 const NEYNAR_API_PRIVATE_KEY = process.env.NEYNAR_API_PRIVATE_KEY;
 const WALLET_PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
 const BASESCAN_API_KEY = process.env.BASESCAN_API_KEY;
 // const CASTER_FID = 10426; // Brian Doyle
 const CASTER_FID = 12142; // *base: The user sending the frame, who needs to be followed
-
+const TOKEN_ID = 0;
  
 async function callIfFollowed(fid: number) {
   let follows = false;
-  let API_URL = `https://api.neynar.com/v1/farcaster/user?fid=${CASTER_FID}&viewerFid=${fid}'`
+  const API_URL = `https://api.neynar.com/v1/farcaster/user?fid=${CASTER_FID}&viewerFid=${fid}`;
   
   const options = {
     method: 'GET',
@@ -56,7 +55,7 @@ async function callIfFollowed(fid: number) {
 }
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
-  console.log("Follow Gate Mint");
+  console.log("Magic Mint Test");
   
   let accountAddress: string | undefined = '';
   const body: FrameRequest = await req.json();
@@ -76,12 +75,12 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   
   const nftOwnerClient = createWalletClient({
     account: nftOwnerAccount,
-    chain: baseSepolia,
+    chain: base,
     transport: http(PROVIDER_URL as string)
   });
 
   const publicClient = createPublicClient({
-    chain: baseSepolia,
+    chain: base,
     transport: http(PROVIDER_URL as string)
   });
 
@@ -89,23 +88,13 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   try {
     // Find out of the address still owns the NFT, and if so, what the token ID is
-    const API_URL = `https://api.basescan.org/api?module=account&action=tokennfttx&contractaddress=${CONTRACT_ADDRESS}&address=${accountAddress}&sort=asc&apikey=${BASESCAN_API_KEY}`;
-    const response = await fetch(API_URL);
-    const json: EtherscanResponse = (await response.json()) as EtherscanResponse;
-    
-    const result = json.result;
-
-    // Create a list of the token IDs where to matches the address
-    const tokenIds = result.filter((tx) => tx.to === accountAddress?.toLocaleLowerCase()).map((tx) => tx.tokenID);
-    
-    // Create a list of the token IDs where from matches the address
-    const tokenIdsFrom = result.filter((tx) => tx.from === accountAddress?.toLocaleLowerCase()).map((tx) => tx.tokenID);
-
-    // Remove any token IDS that are in tokenIdsFrom from tokenIds
-    const tokenIdsTo = tokenIds.filter((tokenId) => !tokenIdsFrom.includes(tokenId));
-
-    // If there are any token IDs left, then the address still owns the NFT
-    minted = tokenIdsTo.length > 0;
+    minted = !!await publicClient.readContract({
+      address: CONTRACT_ADDRESS,
+      abi: ERC1155ABI,
+      functionName: 'balanceOf',
+      args: [accountAddress, TOKEN_ID]
+    });
+    console.log(`MAGIC MINT TEST: Minted status: ${minted}`);
   } catch (err) {
     console.error("Failure getting minted status");
     console.error(err);
